@@ -17,18 +17,15 @@ registerBlockType("uvic-captions-player/embed-player", {
 
 function onEditBlock(props) {
   const { attributes, setAttributes } = props;
-  const blockProps = useBlockProps();
   const updateFieldValue = val => {
     setAttributes({ playerEmbed: val });
   };
   return (
-    <div {...blockProps}>
-      <TextAreaControl
-        label="Embed UVic Player"
-        value={attributes.playerEmbed}
-        onChange={updateFieldValue}
-      />
-    </div>
+    <TextAreaControl
+      label="Embed UVic Player"
+      value={attributes.playerEmbed}
+      onChange={updateFieldValue}
+    />
   );
 }
 
