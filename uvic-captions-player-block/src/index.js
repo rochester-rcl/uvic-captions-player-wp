@@ -35,5 +35,9 @@ function onEditBlock(props) {
 function onSaveBlock(props) {
   const { attributes } = props;
   const blockProps = useBlockProps.save();
-  return <div {...blockProps} data-player-embed={attributes.playerEmbed}>{attributes.playerEmbed}</div>;
+  return (
+    <div {...blockProps} data-player-embed={attributes.playerEmbed}>
+      {attributes.playerEmbed}
+    </div>
+  );
 }
