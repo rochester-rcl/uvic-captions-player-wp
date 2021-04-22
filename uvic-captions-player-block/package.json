@@ -1,0 +1,18 @@
+{
+  "name": "uvic-captions-player-block",
+  "version": "0.0.1",
+  "description": "Adds a block to WordPress to embed a UVicCaptionsPlayer into a post",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "wp-scripts build",
+    "start": "wp-scripts start"
+  },
+  "author": "Digital Scholarship - University of Rochester",
+  "license": "MIT",
+  "devDependencies": {
+    "@wordpress/block-editor": "5.3.2",
+    "@wordpress/blocks": "8.0.2",
+    "@wordpress/scripts": "14.1.1"
+  }
+}

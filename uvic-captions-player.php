@@ -18,3 +18,4 @@ require_once( UVIC_PLAYER_PLUGIN_DIR . 'class.uvic-captions-player.php' );
 
 register_activation_hook(__FILE__, ["UVicCaptionsPlayer", "plugin_activation"]);
 register_deactivation_hook(__FILE__, ["UVicCaptionsPlayer", "plugin_deactivation"]);
+add_action( "init", ["UVicCaptionsPlayer", "register_block"]);
