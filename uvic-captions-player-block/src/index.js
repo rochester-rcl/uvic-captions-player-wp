@@ -25,7 +25,7 @@ function onEditBlock(props) {
     <div {...blockProps}>
       <TextAreaControl
         label="Embed UVic Player"
-        value={attributes.content}
+        value={attributes.playerEmbed}
         onChange={updateFieldValue}
       />
     </div>
@@ -35,5 +35,5 @@ function onEditBlock(props) {
 function onSaveBlock(props) {
   const { attributes } = props;
   const blockProps = useBlockProps.save();
-  return <div {...blockProps} data-player-embed={attributes.playerEmbed}></div>;
+  return <div {...blockProps} data-player-embed={attributes.playerEmbed}>{attributes.playerEmbed}</div>;
 }
