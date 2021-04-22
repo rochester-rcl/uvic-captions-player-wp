@@ -14,6 +14,7 @@ Author URI: https://dslab.lib.rochester.edu
 */
 
 define( 'UVIC_PLAYER_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define('SCRIPT_DEBUG', true); // turn off in production
 require_once( UVIC_PLAYER_PLUGIN_DIR . 'class.uvic-captions-player.php' );
 
 register_activation_hook(__FILE__, ["UVicCaptionsPlayer", "plugin_activation"]);
