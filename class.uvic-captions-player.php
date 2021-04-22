@@ -2,7 +2,7 @@
 
 class UVicCaptionsPlayer {
 
-    private $_blockFolder = "uvic-captions-player-block/build";
+    private static $_blockFolder = "uvic-captions-player-block/build";
 
     /**
      * Activates the plugin
@@ -22,12 +22,13 @@ class UVicCaptionsPlayer {
 
     public static function register_block()
     {
-        $assetFile = include(UVIC_PLAYER_PLUGIN_DIR . "{$self->_blockFolder}/index.asset.php");
+        $blockFolder = self::$_blockFolder;
+        $assetFile = include(UVIC_PLAYER_PLUGIN_DIR . "{$blockFolder}/index.asset.php");
         wp_register_script(
             "uvic-captions-player",
-            plugins_url("{$self->_blockFolder}/build/index.js", __FILE__),
-            $asset_file['dependencies'],
-            $asset_file['version']
+            plugins_url("{$blockFolder}/index.js", __FILE__),
+            $assetFile['dependencies'],
+            $assetFile['version']
         );
 
         register_block_type("uvic-captions-player/embed-player", [
