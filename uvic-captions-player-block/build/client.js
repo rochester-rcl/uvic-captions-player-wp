@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.tsx");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/client.tsx");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -11068,6 +11068,31 @@ var templateObject_1, templateObject_2, templateObject_3;
 
 /***/ }),
 
+/***/ "./src/client.tsx":
+/*!************************!*\
+  !*** ./src/client.tsx ***!
+  \************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App */ "./src/App.tsx");
+
+
+window.addEventListener("DOMContentLoaded", function (evt) {
+    var wrapper = document.getElementById(_App__WEBPACK_IMPORTED_MODULE_1__["DYNAMIC_PLAYER_EMBED_ID"]);
+    if (wrapper) {
+        var playerEmbed = wrapper.dataset.playerEmbed;
+        Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["render"])(React.createElement(_App__WEBPACK_IMPORTED_MODULE_1__["default"], { loadHypothesis: true, playerEmbed: playerEmbed }), wrapper);
+    }
+});
+
+
+/***/ }),
+
 /***/ "./src/components/Subtitles.tsx":
 /*!**************************************!*\
   !*** ./src/components/Subtitles.tsx ***!
@@ -11401,52 +11426,6 @@ var templateObject_1;
 
 /***/ }),
 
-/***/ "./src/index.tsx":
-/*!***********************!*\
-  !*** ./src/index.tsx ***!
-  \***********************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App */ "./src/App.tsx");
-
-
-
-Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__["registerBlockType"])("uvic-captions-player/embed-player", {
-    title: "UVic Captions Player",
-    icon: "video-alt",
-    category: "media",
-    attributes: {
-        playerEmbed: {
-            type: "string"
-        }
-    },
-    edit: onEditBlock,
-    save: onSaveBlock
-});
-function onEditBlock(props) {
-    var attributes = props.attributes, setAttributes = props.setAttributes;
-    var updateFieldValue = function (val) {
-        setAttributes({ playerEmbed: val });
-    };
-    return (React.createElement("div", null,
-        React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["TextareaControl"], { label: "Embed UVic Player", value: attributes.playerEmbed, onChange: updateFieldValue }),
-        React.createElement(_App__WEBPACK_IMPORTED_MODULE_2__["default"], { loadHypothesis: false, playerEmbed: attributes.playerEmbed })));
-}
-function onSaveBlock(props) {
-    var playerEmbed = props.attributes.playerEmbed;
-    return (React.createElement("div", { id: _App__WEBPACK_IMPORTED_MODULE_2__["DYNAMIC_PLAYER_EMBED_ID"], "data-player-embed": playerEmbed }));
-}
-
-
-/***/ }),
-
 /***/ "./src/utils/palette.ts":
 /*!******************************!*\
   !*** ./src/utils/palette.ts ***!
@@ -11539,28 +11518,6 @@ function loadHypothesisScript(ctx) {
 
 /***/ }),
 
-/***/ "@wordpress/blocks":
-/*!********************************!*\
-  !*** external ["wp","blocks"] ***!
-  \********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["blocks"]; }());
-
-/***/ }),
-
-/***/ "@wordpress/components":
-/*!************************************!*\
-  !*** external ["wp","components"] ***!
-  \************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["components"]; }());
-
-/***/ }),
-
 /***/ "@wordpress/element":
 /*!*********************************!*\
   !*** external ["wp","element"] ***!
@@ -11584,4 +11541,4 @@ function loadHypothesisScript(ctx) {
 /***/ })
 
 /******/ });
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=client.js.map

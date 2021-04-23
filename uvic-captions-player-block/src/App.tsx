@@ -1,11 +1,15 @@
-// @ts-nocheck
-import { createContext, useEffect, useState, useCallback } from "@wordpress/element";
-import Subtitles from "./components/Subtitles";
+import {
+  createContext,
+  useEffect,
+  useState,
+  useCallback
+} from "@wordpress/element";
+// import Subtitles from "./components/Subtitles";
 import VideoPlayer, { IPlayerConfig, ITrack } from "./components/VideoPlayer";
 import { loadHypothesisScript } from "./utils/scriptloader";
-import { css, cx } from "@emotion/css";
-import { JWPlayerStatic } from "./types/jwplayer";
+import styled from "styled-components";
 
+import { JWPlayerStatic } from "./types/jwplayer";
 declare global {
   interface Window {
     jwplayer?: JWPlayerStatic;
@@ -37,14 +41,14 @@ bufferlength: '5'
 p.setVolume(50);
 </script></div><!-- Closes video player -->`;
 
-const AppContainerStyle = css`
+const AppContainer = styled.div`
   display: "flex",
   justifyContent: "flex-start",
   height: "100vh",
   overflow: "hidden"
 `;
 
-const NoPlayerWarningContainerStyle = css`
+const NoPlayerWarningContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,7 +57,7 @@ const NoPlayerWarningContainerStyle = css`
   height: 100%;
 `;
 
-const NoPlayerWarningStyle = css`
+const NoPlayerWarning = styled.h1`
   padding: 10px;
 `;
 
@@ -70,9 +74,10 @@ const defaultAppCtxValue: AppCtxValue = {
 };
 
 export const AppCtx = createContext(defaultAppCtxValue);
+export const DYNAMIC_PLAYER_EMBED_ID = "dynamic-player-embed-block";
 
-function App(props: { playerEmbed: string }) {
-  const { playerEmbed } = props;
+function App(props: { loadHypothesis: boolean; playerEmbed?: string }) {
+  const { loadHypothesis, playerEmbed } = props;
   const [currentTime, setCurrentTime] = useState(
     defaultAppCtxValue.currentTime
   );
@@ -99,8 +104,10 @@ function App(props: { playerEmbed: string }) {
   ]);
 
   useEffect(() => {
-    loadHypothesisScript(document);
-  }, []);
+    if (loadHypothesis) {
+      loadHypothesisScript(document);
+    }
+  }, [loadHypothesis]);
 
   const subtitleTrack =
     subtitleTracks.length > currentTrackIdx
@@ -109,7 +116,7 @@ function App(props: { playerEmbed: string }) {
   if (playerEmbed) {
     return (
       <AppCtx.Provider value={{ currentTime, subtitleTrack, setTime }}>
-        <div className={AppContainerStyle}>
+        <AppContainer>
           <Subtitles />
           <VideoPlayer
             seek={seek}
@@ -118,18 +125,18 @@ function App(props: { playerEmbed: string }) {
             onPlayerConfigParsed={handleConfig}
             onCaptionsChanged={handleCaptionsChange}
           />
-        </div>
+        </AppContainer>
       </AppCtx.Provider>
     );
   } else {
     return (
-      <div className={AppContainerStyle}>
-        <div className={NoPlayerWarningContainerStyle}>
-          <h1 className={NoPlayerWarningStyle}>
+      <AppContainer>
+        <NoPlayerWarningContainer>
+          <NoPlayerWarning>
             No Player Embed Code Found. Please check your post and try again.
-          </h1>
-        </div>
-      </div>
+          </NoPlayerWarning>
+        </NoPlayerWarningContainer>
+      </AppContainer>
     );
   }
 }

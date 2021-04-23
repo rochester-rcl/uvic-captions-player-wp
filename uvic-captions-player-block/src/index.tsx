@@ -1,11 +1,10 @@
-// @ts-nocheck
 import {
   BlockEditProps,
   BlockSaveProps,
   registerBlockType
 } from "@wordpress/blocks";
 import { TextareaControl } from "@wordpress/components";
-import App from "./App";
+import App, { DYNAMIC_PLAYER_EMBED_ID } from "./App";
 
 registerBlockType<IUvicPlayerBlockProps>("uvic-captions-player/embed-player", {
   title: "UVic Captions Player",
@@ -30,15 +29,20 @@ function onEditBlock(props: BlockEditProps<IUvicPlayerBlockProps>) {
     setAttributes({ playerEmbed: val });
   };
   return (
-    <TextareaControl
-      label="Embed UVic Player"
-      value={attributes.playerEmbed}
-      onChange={updateFieldValue}
-    />
+    <div>
+      <TextareaControl
+        label="Embed UVic Player"
+        value={attributes.playerEmbed}
+        onChange={updateFieldValue}
+      />
+      <App loadHypothesis={false} playerEmbed={attributes.playerEmbed} />
+    </div>
   );
 }
 
 function onSaveBlock(props: BlockSaveProps<IUvicPlayerBlockProps>) {
   const { playerEmbed } = props.attributes;
-  return <App playerEmbed={playerEmbed} />;
+  return (
+    <div id={DYNAMIC_PLAYER_EMBED_ID} data-player-embed={playerEmbed}></div>
+  );
 }

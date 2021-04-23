@@ -1,21 +1,31 @@
 const path = require("path");
 const defaultConfig = require("@wordpress/scripts/config/webpack.config");
-console.log(defaultConfig);
+
 module.exports = {
   ...defaultConfig,
-  entry: "./src/index.tsx",
+  entry: {
+    index: "./src/index.tsx",
+    client: "./src/client.tsx"
+  },
   module: {
     ...defaultConfig.module,
     rules: [
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: [{ 
+          loader: "ts-loader", 
+          options: { 
+            transpileOnly: true 
+          } 
+        }],
         exclude: /node_modules/
       },
       ...defaultConfig.module.rules
     ]
   },
-
+  plugins: [
+    ...defaultConfig.plugins,
+  ],
   resolve: {
     ...defaultConfig.resolve,
     extensions: [".tsx", ".ts", "js", "jsx"]
@@ -23,8 +33,7 @@ module.exports = {
 
   output: {
     ...defaultConfig.output,
-    filename: "index.js",
+    filename: "[name].js",
     path: path.resolve(__dirname, "build")
   },
-  target: "node",
 };

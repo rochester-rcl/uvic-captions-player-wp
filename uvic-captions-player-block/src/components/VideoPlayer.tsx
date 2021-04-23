@@ -1,7 +1,6 @@
-// @ts-nocheck
 import { useEffect, useState, useCallback, useRef } from "@wordpress/element";
 import { loadJWPlayerScript } from "../utils/scriptloader";
-import { css } from "@emotion/css";
+import styled from "styled-components";
 import { JWPlayer, TimeParam } from "../types/jwplayer";
 
 interface IVideoPlayerProps {
@@ -86,7 +85,7 @@ function parseRawHtml(html: string): IPlayer {
   throw new Error("Unable to Parse Player HTML");
 }
 
-const VideoPlayerContainerStyle = css`
+const VideoPlayerContainer = styled.div`
   position: relative;
   max-height: inherit;
   flex: 1;
@@ -163,8 +162,8 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
   }, [seek, jwPlayer]);
 
   return (
-    <div className={VideoPlayerContainerStyle}>
+    <VideoPlayerContainer>
       <div ref={playerRef}></div>
-    </div>
+    </VideoPlayerContainer>
   );
 }

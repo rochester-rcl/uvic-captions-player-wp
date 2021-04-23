@@ -1,17 +1,10 @@
-// @ts-nocheck
-import {
-  useState,
-  useEffect,
-  useContext,
-  useRef,
-  useMemo,
-} from "@wordpress/element";
-// import { parseSync, formatTimestamp } from "subtitle";
+import { useState, useEffect, useContext, useRef, useMemo } from "@wordpress/element";
+import { parseSync, formatTimestamp } from "subtitle";
+import styled, { css } from "styled-components";
 import Palette from "../utils/palette";
 import { AppCtx } from "../App";
 import SimpleBar from "simplebar-react";
 import "simplebar/dist/simplebar.min.css";
-import { css, cx } from "@emotion/css";
 
 interface ISubtitleData {
   start: number;
@@ -41,48 +34,20 @@ async function loadSubtitlesFromUrl(url: string): Promise<ISubtitle[]> {
   return subtitles.map(node => node as ISubtitle);
 }
 
-interface ISubtitleDisplayContainerProps {
-  active: boolean;
-  children: any;
-  innerRef: RefObject<HTMLDivElement>;
-  onClick: React.MouseEventHandler<HTMLDivElement>;
-}
+const SubtitleDisplayContainer = styled.div`
+  padding: 5px;
+  display: flex;
+  align-items: baseline;
+  cursor: pointer;
+  color: ${(props: ISubtitleTextProps) =>
+    props.active ? Palette.DarkBlue : Palette.LightGray};
+  transition: color 300ms ease-in-out;
+  &:hover {
+    color: ${Palette.DarkBlue};
+  }
+`;
 
-function SubtitleDisplayContainer(props: ISubtitleDisplayContainerProps) {
-  const { active, children, innerRef, onClick } = props;
-  const styles = {
-    base: css`
-      padding: 5px;
-      display: flex;
-      align-items: baseline;
-      cursor: pointer;
-      transition: color 300ms ease-in-out;
-      &:hover {
-        color: ${Palette.DarkBlue};
-      }
-    `,
-    active: css`
-      color: ${Palette.DarkBlue};
-    `,
-    inActive: css`
-      color: ${Palette.LightGray};
-    `
-  };
-
-  const style = cx(
-    styles.base,
-    { [styles.active]: active },
-    { [styles.inActive]: !active }
-  );
-
-  return (
-    <div ref={innerRef} className={style} onClick={onClick}>
-      {children}
-    </div>
-  );
-}
-
-const SubtitleTimecodeStyle = css`
+const SubtitleTimecode = styled.span`
   font-size: 15px;
   margin-right: 10px;
   flex: 0.1;
@@ -92,7 +57,7 @@ interface ISubtitleTextProps {
   active: boolean;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
-const SubtitleTextStyle = css`
+const SubtitleText = styled.span`
   font-size: 18px;
   flex: 0.9;
   padding-bottom: 10px;
@@ -108,7 +73,7 @@ function SubtitleDisplay(props: ISubtitleDisplayProps) {
   const { subtitle, autoScroll, scrollRef } = props;
   const { setTime } = useContext(AppCtx);
   const subRef = useRef<HTMLDivElement>(null);
-  const { start, end, text } = subtitle.data;
+  const { start, end, text } = props.subtitle.data;
   const { currentTime } = useContext(AppCtx);
   const active = currentTime >= start && currentTime <= end;
 
@@ -130,19 +95,19 @@ function SubtitleDisplay(props: ISubtitleDisplayProps) {
 
   return (
     <SubtitleDisplayContainer
-      innerRef={subRef}
+      ref={subRef}
       active={active}
       onClick={handleClick}
     >
-      <span className={SubtitleTimecodeStyle}>
+      <SubtitleTimecode>
         {formatTimestamp(start).replace(/\,(.*)/g, "")}
-      </span>
-      <span className={SubtitleTextStyle}>{text}</span>
+      </SubtitleTimecode>
+      <SubtitleText>{text}</SubtitleText>
     </SubtitleDisplayContainer>
   );
 }
 
-const SubtitleListContainerStyle = css`
+const SubtitleListContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -151,7 +116,7 @@ const SubtitleListContainerStyle = css`
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
 
-const SubtitleListToolsContainerStyle = css`
+const SubtitleListToolsContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: baseline;
@@ -161,7 +126,7 @@ const SubtitleListToolsContainerStyle = css`
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
 
-const SubtitleListFilterInputStyle = css`
+const SubtitleListFilterInput = styled.input`
   border: none;
   color: ${Palette.White};
   background: none;
@@ -176,7 +141,7 @@ const SubtitleListFilterInputStyle = css`
   }
 `;
 
-const SubtitleListFilterInputContainerStyle = css`
+const SubtitleListFilterInputContainer = styled.div`
   display: flex;
   align-items: baseline;
   justifty-content: flex-start;
@@ -185,8 +150,6 @@ const SubtitleListFilterInputContainerStyle = css`
 
 interface IAutoScrollButtonProps {
   active: boolean;
-  children: any;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const ButtonBase = css`
@@ -199,40 +162,20 @@ const ButtonBase = css`
   }
 `;
 
-function SubtitleListAutoScrollButton(props: IAutoScrollButtonProps) {
-  const { active, children, onClick } = props;
-  const styles = {
-    base: css`
-      ${ButtonBase}
-      width: 100px;
-      height: 25px;
-      border-radius: 2px;
-      &:focus {
-        border: none;
-        outline: none;
-      }
-    `,
-    active: css`
-      background: ${Palette.Red};
-    `,
-    inActive: css`
-      background: ${Palette.LightGray};
-    `
-  };
-  const style = cx(
-    styles.base,
-    { [styles.active]: active },
-    { [styles.inActive]: !active }
-  );
+const SubtitleListAutoScrollButton = styled.button`
+  ${ButtonBase}
+  width: 100px;
+  height: 25px;
+  border-radius: 2px;
+  background: ${(props: IAutoScrollButtonProps) =>
+    props.active ? Palette.Red : Palette.LightGray};
+  &:focus {
+    border: none;
+    outline: none;
+  }
+`;
 
-  return (
-    <button className={style} onClick={onClick}>
-      {children}
-    </button>
-  );
-}
-
-const SubtitleListClearFilterButtonStyle = css`
+const SubtitleListClearFilterButton = styled.button`
   ${ButtonBase}
   border-radius: 2px;
   color: ${Palette.White};
@@ -282,30 +225,26 @@ function SubtitleList(props: ISubtitleListProps) {
     }
   }, [scrollRef]);
   return (
-    <div className={SubtitleListContainerStyle}>
-      <div className={SubtitleListToolsContainerStyle}>
-        <div className={SubtitleListFilterInputContainerStyle}>
-          <input
-            className={SubtitleListFilterInputStyle}
+    <SubtitleListContainer>
+      <SubtitleListToolsContainer>
+        <SubtitleListFilterInputContainer>
+          <SubtitleListFilterInput
             placeholder={"Search Captions ..."}
             ref={filterInputRef}
             value={fitlerVal}
             onChange={handleFilterValChange}
           />
-          <button
-            className={SubtitleListClearFilterButtonStyle}
-            onClick={handleClearFilterButtonClick}
-          >
+          <SubtitleListClearFilterButton onClick={handleClearFilterButtonClick}>
             &#10006;
-          </button>
-        </div>
+          </SubtitleListClearFilterButton>
+        </SubtitleListFilterInputContainer>
         <SubtitleListAutoScrollButton
           active={autoScroll}
           onClick={handleAutoScrollButtonClick}
         >
           Auto Scroll
         </SubtitleListAutoScrollButton>
-      </div>
+      </SubtitleListToolsContainer>
       <SimpleBar
         scrollableNodeProps={{ ref: scrollRef }}
         style={{
@@ -326,7 +265,7 @@ function SubtitleList(props: ISubtitleListProps) {
           />
         ))}
       </SimpleBar>
-    </div>
+    </SubtitleListContainer>
   );
 }
 
