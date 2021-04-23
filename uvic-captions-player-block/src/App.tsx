@@ -4,7 +4,7 @@ import {
   useState,
   useCallback
 } from "@wordpress/element";
-// import Subtitles from "./components/Subtitles";
+import Subtitles from "./components/Subtitles";
 import VideoPlayer, { IPlayerConfig, ITrack } from "./components/VideoPlayer";
 import { loadHypothesisScript } from "./utils/scriptloader";
 import styled from "styled-components";
@@ -44,8 +44,8 @@ p.setVolume(50);
 const AppContainer = styled.div`
   display: "flex",
   justifyContent: "flex-start",
-  height: "100vh",
-  overflow: "hidden"
+  width: 100%;
+  height: 100%;
 `;
 
 const NoPlayerWarningContainer = styled.div`
