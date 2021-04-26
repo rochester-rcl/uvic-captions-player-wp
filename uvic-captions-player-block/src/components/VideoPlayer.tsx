@@ -88,9 +88,9 @@ function parseRawHtml(html: string): IPlayer {
 const VideoPlayerContainer = styled.div`
   position: relative;
   max-height: inherit;
-  flex: 1;
   display: flex;
   margin: 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
 
 export default function VideoPlayer(props: IVideoPlayerProps) {

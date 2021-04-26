@@ -14,7 +14,8 @@ services:
       WORDPRESS_DB_NAME: wp_db
     volumes:
       - ${WP_PLUGIN_SRC}:/var/www/html/wp-content/plugins/uvic-captions-player
-
+    depends_on:
+      - db
   db:
     image: mysql:5.7
     restart: always

@@ -24,6 +24,9 @@ class UVicCaptionsPlayer {
     {
         $blockFolder = self::$_blockFolder;
         $assetFile = include(UVIC_PLAYER_PLUGIN_DIR . "{$blockFolder}/index.asset.php");
+
+        // scripts 
+
         wp_register_script(
             "uvic-captions-player-editor",
             plugins_url("{$blockFolder}/index.js", __FILE__),
@@ -37,6 +40,20 @@ class UVicCaptionsPlayer {
             $assetFile['dependencies'],
             $assetFile['version']
         );
+
+        // styles
+
+        wp_enqueue_style(
+            "uvic-captions-player-editor-style",
+            plugins_url("{$blockFolder}/index.css", __FILE__),
+            []
+        );
+
+        wp_enqueue_style(
+            "uvic-captions-player-client-style",
+            plugins_url("{$blockFolder}/client.css", __FILE__),
+            []
+        ); 
 
         register_block_type("uvic-captions-player/embed-player", [
             "api_version" => 2,

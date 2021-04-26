@@ -9,6 +9,8 @@ import VideoPlayer, { IPlayerConfig, ITrack } from "./components/VideoPlayer";
 import { loadHypothesisScript } from "./utils/scriptloader";
 import styled from "styled-components";
 
+import "./styles/fonts.css";
+
 import { JWPlayerStatic } from "./types/jwplayer";
 declare global {
   interface Window {
@@ -16,36 +18,14 @@ declare global {
   }
 }
 
-const rawHtml = `<div style="width: 100%; max-width: 512px;">
-<div style="border: 1px solid #000; position: relative; width: 100%; padding: 0;" id="VidPlayerPlaceholder_3884" class="videoplayer">
-</div>
-<script type="text/javascript" src="//www.uvic.ca/video/player/js/7.11.2/jwplayer.js"></script>
-<script type="text/javascript">jwplayer.key="UJGcVouk597phvGZrziZMHAb3IRluP27vKFmTIMbWyw=";</script>
-<script type="text/javascript">
-var p = jwplayer('VidPlayerPlaceholder_3884').setup({
-flashplayer: "//www.uvic.ca/video/player/jwplayer.flash.swf",
-playlist: [
-{ title: "", image: "//hlsvod.uvic.ca/vod/mediaservices/UVic-webcasting.jpg", sources: [{ file: "//hlsvod.uvic.ca/hls-vod/tsobie/AdamsonFacultyDevelopment.mp4.m3u8"}], tracks: [{ file: "https://hlsvod.uvic.ca/vod/tsobie/AdamsonFacultyDevelopmentCaptions.vtt", label: "", kind: "captions"}]}
-],
-primary: 'html5',
-hlshtml: 'true',
-width: '100%',
-aspectratio: '16:9',
-autostart: 'false',
-repeat: 'false',
-controls: 'true',
-rtmp: {
-bufferlength: '5'
-}
-});
-p.setVolume(50);
-</script></div><!-- Closes video player -->`;
-
 const AppContainer = styled.div`
-  display: "flex",
-  justifyContent: "flex-start",
-  width: 100%;
-  height: 100%;
+  display: grid;
+  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  grid-template-columns: 50% 50%;
+  align-items: stretch;
+  font-weight: 400;
+  grid-auto-rows: 1fr;
+  height: 500px;
 `;
 
 const NoPlayerWarningContainer = styled.div`
@@ -53,8 +33,6 @@ const NoPlayerWarningContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
 `;
 
 const NoPlayerWarning = styled.h1`

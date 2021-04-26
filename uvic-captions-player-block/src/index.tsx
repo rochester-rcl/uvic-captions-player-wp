@@ -3,6 +3,8 @@ import {
   BlockSaveProps,
   registerBlockType
 } from "@wordpress/blocks";
+import { useBlockProps } from "@wordpress/block-editor";
+
 import { TextareaControl } from "@wordpress/components";
 import App, { DYNAMIC_PLAYER_EMBED_ID } from "./App";
 
@@ -28,8 +30,9 @@ function onEditBlock(props: BlockEditProps<IUvicPlayerBlockProps>) {
   const updateFieldValue = (val: string) => {
     setAttributes({ playerEmbed: val });
   };
+  const blockProps = useBlockProps();
   return (
-    <div>
+    <div {...blockProps}>
       <TextareaControl
         label="Embed UVic Player"
         value={attributes.playerEmbed}
@@ -43,6 +46,9 @@ function onEditBlock(props: BlockEditProps<IUvicPlayerBlockProps>) {
 function onSaveBlock(props: BlockSaveProps<IUvicPlayerBlockProps>) {
   const { playerEmbed } = props.attributes;
   return (
-    <div id={DYNAMIC_PLAYER_EMBED_ID} data-player-embed={playerEmbed}></div>
+    <div
+      id={DYNAMIC_PLAYER_EMBED_ID}
+      data-player-embed={playerEmbed}
+    ></div>
   );
 }

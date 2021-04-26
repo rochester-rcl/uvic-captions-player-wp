@@ -1,10 +1,14 @@
-import { useState, useEffect, useContext, useRef, useMemo } from "@wordpress/element";
+import {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useMemo
+} from "@wordpress/element";
 import { parseSync, formatTimestamp } from "subtitle";
 import styled, { css } from "styled-components";
-import Palette from "../utils/palette";
+import Palette from "../styles/palette";
 import { AppCtx } from "../App";
-import SimpleBar from "simplebar-react";
-import "simplebar/dist/simplebar.min.css";
 
 interface ISubtitleData {
   start: number;
@@ -36,7 +40,8 @@ async function loadSubtitlesFromUrl(url: string): Promise<ISubtitle[]> {
 
 const SubtitleDisplayContainer = styled.div`
   padding: 5px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 20% 80%;
   align-items: baseline;
   cursor: pointer;
   color: ${(props: ISubtitleTextProps) =>
@@ -47,8 +52,8 @@ const SubtitleDisplayContainer = styled.div`
   }
 `;
 
-const SubtitleTimecode = styled.span`
-  font-size: 15px;
+const SubtitleTimecode = styled.div`
+  font-size: 0.8vw;
   margin-right: 10px;
   flex: 0.1;
 `;
@@ -57,8 +62,8 @@ interface ISubtitleTextProps {
   active: boolean;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
-const SubtitleText = styled.span`
-  font-size: 18px;
+const SubtitleText = styled.div`
+  font-size: 1vw;
   flex: 0.9;
   padding-bottom: 10px;
 `;
@@ -84,11 +89,8 @@ function SubtitleDisplay(props: ISubtitleDisplayProps) {
   useEffect(() => {
     if (autoScroll && active) {
       const { current } = subRef;
-      if (current) {
-        const parent = current.parentElement;
-        if (parent && scrollRef.current) {
-          scrollRef.current.scrollTop = current.offsetTop - parent.offsetTop;
-        }
+      if (current && scrollRef.current) {
+        scrollRef.current.scrollTop = current.offsetTop;
       }
     }
   }, [active, autoScroll, subRef, scrollRef]);
@@ -109,10 +111,11 @@ function SubtitleDisplay(props: ISubtitleDisplayProps) {
 
 const SubtitleListContainer = styled.div`
   display: flex;
+  background: ${Palette.White};
   flex-direction: column;
   justify-content: flex-start;
-  flex: 0.8;
   margin: 20px;
+  overflow: hidden;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
 
@@ -130,7 +133,8 @@ const SubtitleListFilterInput = styled.input`
   border: none;
   color: ${Palette.White};
   background: none;
-  font-size: 20px;
+  font-size: 1vw;
+  font-family: "Roboto Condensed", Hevletica, sans-serif;
   height: 50px;
   max-width: 400px;
   &:focus {
@@ -162,11 +166,15 @@ const ButtonBase = css`
   }
 `;
 
-const SubtitleListAutoScrollButton = styled.button`
+const SubtitleListAutoScrollButton = styled.div`
   ${ButtonBase}
-  width: 100px;
-  height: 25px;
+  padding: 5px 10px;
+  text-align: center;
   border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1vw;
   background: ${(props: IAutoScrollButtonProps) =>
     props.active ? Palette.Red : Palette.LightGray};
   &:focus {
@@ -175,7 +183,7 @@ const SubtitleListAutoScrollButton = styled.button`
   }
 `;
 
-const SubtitleListClearFilterButton = styled.button`
+const SubtitleListClearFilterButton = styled.div`
   ${ButtonBase}
   border-radius: 2px;
   color: ${Palette.White};
@@ -184,15 +192,33 @@ const SubtitleListClearFilterButton = styled.button`
   height: 16px;
   padding: 2px;
   font-size: 16px;
-  font-family: "Roboto Condensed Bold", Helvetica, sans-serif;
   font-weight: 700;
+`;
+
+const SubtitleScrollList = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 5px 10px;
+  margin: 5px 5px 0px 0px;
+  ::-webkit-scrollbar {
+    background-color: ${Palette.Clear};
+    width: 5px;
+    margin-right: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${Palette.DarkBlue};
+    border-radius: 2px;
+  }
 `;
 
 function SubtitleList(props: ISubtitleListProps) {
   const { subtitles } = props;
   const filterInputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [fitlerVal, setFilterVal] = useState<string>("");
+  const [filterVal, setFilterVal] = useState<string>("");
   const [autoScroll, setAutoScroll] = useState(false);
 
   function handleFilterValChange(evt: React.ChangeEvent<HTMLInputElement>) {
@@ -211,13 +237,12 @@ function SubtitleList(props: ISubtitleListProps) {
     setFilterVal("");
   }
 
-  const subs = useMemo(
-    () =>
-      subtitles.filter(
-        sub => sub.type !== "header" && sub.data.text.includes(fitlerVal)
-      ),
-    [subtitles, fitlerVal]
-  );
+  const subs = useMemo(() => {
+    const fv = filterVal.toLowerCase();
+    return subtitles.filter(
+      sub => sub.type !== "header" && sub.data.text.toLowerCase().includes(fv)
+    );
+  }, [subtitles, filterVal]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -231,7 +256,7 @@ function SubtitleList(props: ISubtitleListProps) {
           <SubtitleListFilterInput
             placeholder={"Search Captions ..."}
             ref={filterInputRef}
-            value={fitlerVal}
+            value={filterVal}
             onChange={handleFilterValChange}
           />
           <SubtitleListClearFilterButton onClick={handleClearFilterButtonClick}>
@@ -242,20 +267,10 @@ function SubtitleList(props: ISubtitleListProps) {
           active={autoScroll}
           onClick={handleAutoScrollButtonClick}
         >
-          Auto Scroll
+          scroll
         </SubtitleListAutoScrollButton>
       </SubtitleListToolsContainer>
-      <SimpleBar
-        scrollableNodeProps={{ ref: scrollRef }}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          overflowY: "auto",
-          overflowX: "hidden",
-          position: "relative",
-          margin: "5px 20px"
-        }}
-      >
+      <SubtitleScrollList ref={scrollRef}>
         {subs.map((sub: ISubtitle) => (
           <SubtitleDisplay
             autoScroll={autoScroll}
@@ -264,7 +279,7 @@ function SubtitleList(props: ISubtitleListProps) {
             scrollRef={scrollRef}
           />
         ))}
-      </SimpleBar>
+      </SubtitleScrollList>
     </SubtitleListContainer>
   );
 }
