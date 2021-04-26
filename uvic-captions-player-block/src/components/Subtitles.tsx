@@ -8,7 +8,8 @@ import {
 import { parseSync, formatTimestamp } from "subtitle";
 import styled, { css } from "styled-components";
 import Palette from "../styles/palette";
-import { AppCtx } from "../App";
+import { AppCtx, IAppProps } from "../App";
+import { isEmptyOrUndefined } from "../utils/string";
 
 interface ISubtitleData {
   start: number;
@@ -53,7 +54,7 @@ const SubtitleDisplayContainer = styled.div`
 `;
 
 const SubtitleTimecode = styled.div`
-  font-size: 0.8vw;
+  font-size: 14px;
   margin-right: 10px;
   flex: 0.1;
 `;
@@ -63,7 +64,7 @@ interface ISubtitleTextProps {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 const SubtitleText = styled.div`
-  font-size: 1vw;
+  font-size: 18px;
   flex: 0.9;
   padding-bottom: 10px;
 `;
@@ -133,8 +134,11 @@ const SubtitleListFilterInput = styled.input`
   border: none;
   color: ${Palette.White};
   background: none;
-  font-size: 1vw;
-  font-family: "Roboto Condensed", Hevletica, sans-serif;
+  font-size: 20px;
+  font-family: ${(props: IAppProps) =>
+    isEmptyOrUndefined(props.fontFamily)
+      ? '"Roboto Condensed", Helvetica, sans-serif'
+      : props.fontFamily};
   height: 50px;
   max-width: 400px;
   &:focus {
@@ -174,7 +178,7 @@ const SubtitleListAutoScrollButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1vw;
+  font-size: 18px;
   background: ${(props: IAutoScrollButtonProps) =>
     props.active ? Palette.Red : Palette.LightGray};
   &:focus {
@@ -216,6 +220,7 @@ const SubtitleScrollList = styled.div`
 
 function SubtitleList(props: ISubtitleListProps) {
   const { subtitles } = props;
+  const { fontFamily } = useContext(AppCtx).appProps;
   const filterInputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [filterVal, setFilterVal] = useState<string>("");
@@ -254,6 +259,7 @@ function SubtitleList(props: ISubtitleListProps) {
       <SubtitleListToolsContainer>
         <SubtitleListFilterInputContainer>
           <SubtitleListFilterInput
+            fontFamily={fontFamily}
             placeholder={"Search Captions ..."}
             ref={filterInputRef}
             value={filterVal}

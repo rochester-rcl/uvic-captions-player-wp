@@ -14146,34 +14146,71 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_VideoPlayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/VideoPlayer */ "./src/components/VideoPlayer.tsx");
 /* harmony import */ var _utils_scriptloader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils/scriptloader */ "./src/utils/scriptloader.ts");
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
-/* harmony import */ var _styles_fonts_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./styles/fonts.css */ "./src/styles/fonts.css");
-/* harmony import */ var _styles_fonts_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_styles_fonts_css__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _utils_string__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/string */ "./src/utils/string.ts");
+/* harmony import */ var _styles_fonts_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/fonts.css */ "./src/styles/fonts.css");
+/* harmony import */ var _styles_fonts_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_styles_fonts_css__WEBPACK_IMPORTED_MODULE_6__);
 var __makeTemplateObject = (undefined && undefined.__makeTemplateObject) || function (cooked, raw) {
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __rest = (undefined && undefined.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 
 
 
 
 
 
-var AppContainer = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  display: grid;\n  font-family: \"Roboto Condensed\", Helvetica, sans-serif;\n  grid-template-columns: 50% 50%;\n  align-items: stretch;\n  font-weight: 400;\n  grid-auto-rows: 1fr;\n  height: 500px;\n"], ["\n  display: grid;\n  font-family: \"Roboto Condensed\", Helvetica, sans-serif;\n  grid-template-columns: 50% 50%;\n  align-items: stretch;\n  font-weight: 400;\n  grid-auto-rows: 1fr;\n  height: 500px;\n"])));
-var NoPlayerWarningContainer = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n"], ["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n"])));
-var NoPlayerWarning = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].h1(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  padding: 10px;\n"], ["\n  padding: 10px;\n"])));
+
+var AppContainerBase = function (props) { return "\n  display: grid;\n  font-family:\n    " + (Object(_utils_string__WEBPACK_IMPORTED_MODULE_5__["isEmptyOrUndefined"])(props.fontFamily)
+    ? '"Roboto Condensed", Helvetica, sans-serif'
+    : props.fontFamily) + ";\n  font-weight: 400;\n  width: " + (Object(_utils_string__WEBPACK_IMPORTED_MODULE_5__["isEmptyOrUndefined"])(props.width) ? "auto" : props.width + "px") + ";\n  height: " + (Object(_utils_string__WEBPACK_IMPORTED_MODULE_5__["isEmptyOrUndefined"])(props.height) ? "500" : props.height) + "px;\n"; };
+var AppContainerLandscape = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  ", ";\n  grid-template-columns: 50% 50%;\n  align-items: stretch;\n  grid-auto-rows: 1fr;\n"], ["\n  ", ";\n  grid-template-columns: 50% 50%;\n  align-items: stretch;\n  grid-auto-rows: 1fr;\n"])), AppContainerBase);
+var AppContainerPortrait = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  ", ";\n  grid-template-columns: 1fr;\n  align-items: stretch;\n  grid-template-rows: 50% 50%;\n  height: ", "px;\n"], ["\n  ", ";\n  grid-template-columns: 1fr;\n  align-items: stretch;\n  grid-template-rows: 50% 50%;\n  height: ",
+    "px;\n"])), AppContainerBase, function (props) {
+    return Object(_utils_string__WEBPACK_IMPORTED_MODULE_5__["isEmptyOrUndefined"])(props.height)
+        ? "1000"
+        : (parseInt(props.height || "1000", 10) * 2).toString();
+});
+var NoPlayerWarningContainer = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n"], ["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n"])));
+var NoPlayerWarning = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].h1(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n  padding: 10px;\n"], ["\n  padding: 10px;\n"])));
 var defaultAppCtxValue = {
     currentTime: 0,
     subtitleTrack: null,
-    setTime: function (time) { }
+    setTime: function (time) { },
+    appProps: { loadHypothesis: true, responsive: true }
 };
 var AppCtx = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createContext"])(defaultAppCtxValue);
 var DYNAMIC_PLAYER_EMBED_ID = "dynamic-player-embed-block";
 function App(props) {
-    var loadHypothesis = props.loadHypothesis, playerEmbed = props.playerEmbed;
+    var loadHypothesis = props.loadHypothesis, playerEmbed = props.playerEmbed, rest = __rest(props, ["loadHypothesis", "playerEmbed"]);
+    var responsive = rest.responsive;
+    var appRef = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
     var _a = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])(defaultAppCtxValue.currentTime), currentTime = _a[0], setCurrentTime = _a[1];
     var _b = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])(undefined), seek = _b[0], setSeek = _b[1];
     var _c = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])([]), subtitleTracks = _c[0], setSubtitleTracks = _c[1];
     var _d = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])(0), currentTrackIdx = _d[0], setCurrentTrackIdx = _d[1];
+    var _e = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])(false), portrait = _e[0], setPortrait = _e[1];
     var handleConfig = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function (config) {
         // retrieve subtitle tracks from config - for now just grab the first tracks from playlist
         setSubtitleTracks(config.playlist[0].tracks);
@@ -14189,12 +14226,35 @@ function App(props) {
             Object(_utils_scriptloader__WEBPACK_IMPORTED_MODULE_3__["loadHypothesisScript"])(document);
         }
     }, [loadHypothesis]);
+    Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+        function handleResize() {
+            if (appRef.current) {
+                var parent = appRef.current.parentElement;
+                if (parent) {
+                    var width = parent.getBoundingClientRect().width;
+                    if (width < 738) {
+                        setPortrait(true);
+                    }
+                    else {
+                        setPortrait(false);
+                    }
+                }
+            }
+        }
+        if (responsive) {
+            window.addEventListener("resize", handleResize);
+        }
+        return function () {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, [responsive, appRef]);
     var subtitleTrack = subtitleTracks.length > currentTrackIdx
         ? subtitleTracks[currentTrackIdx]
         : null;
+    var AppContainer = portrait ? AppContainerPortrait : AppContainerLandscape;
     if (playerEmbed) {
-        return (React.createElement(AppCtx.Provider, { value: { currentTime: currentTime, subtitleTrack: subtitleTrack, setTime: setTime } },
-            React.createElement(AppContainer, null,
+        return (React.createElement(AppCtx.Provider, { value: { currentTime: currentTime, subtitleTrack: subtitleTrack, setTime: setTime, appProps: props } },
+            React.createElement(AppContainer, __assign({ ref: appRef }, rest),
                 React.createElement(_components_Subtitles__WEBPACK_IMPORTED_MODULE_1__["default"], null),
                 React.createElement(_components_VideoPlayer__WEBPACK_IMPORTED_MODULE_2__["default"], { seek: seek, rawHtml: playerEmbed, onTime: setCurrentTime, onPlayerConfigParsed: handleConfig, onCaptionsChanged: handleCaptionsChange }))));
     }
@@ -14205,7 +14265,7 @@ function App(props) {
     }
 }
 /* harmony default export */ __webpack_exports__["default"] = (App);
-var templateObject_1, templateObject_2, templateObject_3;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
 
 
 /***/ }),
@@ -14224,14 +14284,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App */ "./src/App.tsx");
 /* harmony import */ var simplebar_dist_simplebar_min_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! simplebar/dist/simplebar.min.css */ "./node_modules/simplebar/dist/simplebar.min.css");
 /* harmony import */ var simplebar_dist_simplebar_min_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(simplebar_dist_simplebar_min_css__WEBPACK_IMPORTED_MODULE_2__);
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 
 
 
 window.addEventListener("DOMContentLoaded", function (evt) {
     var wrapper = document.getElementById(_App__WEBPACK_IMPORTED_MODULE_1__["DYNAMIC_PLAYER_EMBED_ID"]);
     if (wrapper) {
-        var playerEmbed = wrapper.dataset.playerEmbed;
-        Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["render"])(React.createElement(_App__WEBPACK_IMPORTED_MODULE_1__["default"], { loadHypothesis: true, playerEmbed: playerEmbed }), wrapper);
+        var _a = wrapper.dataset, playerEmbed = _a.playerEmbed, playerProps = _a.playerProps;
+        var props = playerProps ? JSON.parse(playerProps) : {};
+        Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["render"])(React.createElement(_App__WEBPACK_IMPORTED_MODULE_1__["default"], __assign({ loadHypothesis: true, playerEmbed: playerEmbed }, props)), wrapper);
     }
 });
 
@@ -14254,6 +14326,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 /* harmony import */ var _styles_palette__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../styles/palette */ "./src/styles/palette.ts");
 /* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../App */ "./src/App.tsx");
+/* harmony import */ var _utils_string__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/string */ "./src/utils/string.ts");
 var __makeTemplateObject = (undefined && undefined.__makeTemplateObject) || function (cooked, raw) {
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
@@ -14299,6 +14372,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 /**
  * Retrieves subtitles from a url in raw text format0
  *
@@ -14323,8 +14397,8 @@ var SubtitleDisplayContainer = styled_components__WEBPACK_IMPORTED_MODULE_2__["d
     ";\n  transition: color 300ms ease-in-out;\n  &:hover {\n    color: ", ";\n  }\n"])), function (props) {
     return props.active ? _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].DarkBlue : _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].LightGray;
 }, _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].DarkBlue);
-var SubtitleTimecode = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  font-size: 0.8vw;\n  margin-right: 10px;\n  flex: 0.1;\n"], ["\n  font-size: 0.8vw;\n  margin-right: 10px;\n  flex: 0.1;\n"])));
-var SubtitleText = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  font-size: 1vw;\n  flex: 0.9;\n  padding-bottom: 10px;\n"], ["\n  font-size: 1vw;\n  flex: 0.9;\n  padding-bottom: 10px;\n"])));
+var SubtitleTimecode = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  font-size: 14px;\n  margin-right: 10px;\n  flex: 0.1;\n"], ["\n  font-size: 14px;\n  margin-right: 10px;\n  flex: 0.1;\n"])));
+var SubtitleText = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  font-size: 18px;\n  flex: 0.9;\n  padding-bottom: 10px;\n"], ["\n  font-size: 18px;\n  flex: 0.9;\n  padding-bottom: 10px;\n"])));
 function SubtitleDisplay(props) {
     var subtitle = props.subtitle, autoScroll = props.autoScroll, scrollRef = props.scrollRef;
     var setTime = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_App__WEBPACK_IMPORTED_MODULE_4__["AppCtx"]).setTime;
@@ -14349,10 +14423,15 @@ function SubtitleDisplay(props) {
 }
 var SubtitleListContainer = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n  display: flex;\n  background: ", ";\n  flex-direction: column;\n  justify-content: flex-start;\n  margin: 20px;\n  overflow: hidden;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"], ["\n  display: flex;\n  background: ", ";\n  flex-direction: column;\n  justify-content: flex-start;\n  margin: 20px;\n  overflow: hidden;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].White);
 var SubtitleListToolsContainer = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: row;\n  align-items: baseline;\n  justify-content: space-between;\n  padding: 20px;\n  background: ", ";\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"], ["\n  display: flex;\n  flex-direction: row;\n  align-items: baseline;\n  justify-content: space-between;\n  padding: 20px;\n  background: ", ";\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].DarkBlue);
-var SubtitleListFilterInput = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].input(templateObject_6 || (templateObject_6 = __makeTemplateObject(["\n  border: none;\n  color: ", ";\n  background: none;\n  font-size: 1vw;\n  font-family: \"Roboto Condensed\", Hevletica, sans-serif;\n  height: 50px;\n  max-width: 400px;\n  &:focus {\n    outline: none;\n  }\n  &::placeholder {\n    color: ", ";\n  }\n"], ["\n  border: none;\n  color: ", ";\n  background: none;\n  font-size: 1vw;\n  font-family: \"Roboto Condensed\", Hevletica, sans-serif;\n  height: 50px;\n  max-width: 400px;\n  &:focus {\n    outline: none;\n  }\n  &::placeholder {\n    color: ", ";\n  }\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].White, _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].White);
+var SubtitleListFilterInput = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].input(templateObject_6 || (templateObject_6 = __makeTemplateObject(["\n  border: none;\n  color: ", ";\n  background: none;\n  font-size: 20px;\n  font-family: ", ";\n  height: 50px;\n  max-width: 400px;\n  &:focus {\n    outline: none;\n  }\n  &::placeholder {\n    color: ", ";\n  }\n"], ["\n  border: none;\n  color: ", ";\n  background: none;\n  font-size: 20px;\n  font-family: ",
+    ";\n  height: 50px;\n  max-width: 400px;\n  &:focus {\n    outline: none;\n  }\n  &::placeholder {\n    color: ", ";\n  }\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].White, function (props) {
+    return Object(_utils_string__WEBPACK_IMPORTED_MODULE_5__["isEmptyOrUndefined"])(props.fontFamily)
+        ? '"Roboto Condensed", Helvetica, sans-serif'
+        : props.fontFamily;
+}, _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].White);
 var SubtitleListFilterInputContainer = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_7 || (templateObject_7 = __makeTemplateObject(["\n  display: flex;\n  align-items: baseline;\n  justifty-content: flex-start;\n  border-bottom: 2px solid ", ";\n"], ["\n  display: flex;\n  align-items: baseline;\n  justifty-content: flex-start;\n  border-bottom: 2px solid ", ";\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].White);
 var ButtonBase = Object(styled_components__WEBPACK_IMPORTED_MODULE_2__["css"])(templateObject_8 || (templateObject_8 = __makeTemplateObject(["\n  cursor: pointer;\n  border: none;\n  color: ", ";\n  &:focus {\n    border: none;\n    outline: none;\n  }\n"], ["\n  cursor: pointer;\n  border: none;\n  color: ", ";\n  &:focus {\n    border: none;\n    outline: none;\n  }\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].White);
-var SubtitleListAutoScrollButton = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_9 || (templateObject_9 = __makeTemplateObject(["\n  ", "\n  padding: 5px 10px;\n  text-align: center;\n  border-radius: 2px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1vw;\n  background: ", ";\n  &:focus {\n    border: none;\n    outline: none;\n  }\n"], ["\n  ", "\n  padding: 5px 10px;\n  text-align: center;\n  border-radius: 2px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1vw;\n  background: ",
+var SubtitleListAutoScrollButton = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_9 || (templateObject_9 = __makeTemplateObject(["\n  ", "\n  padding: 5px 10px;\n  text-align: center;\n  border-radius: 2px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 18px;\n  background: ", ";\n  &:focus {\n    border: none;\n    outline: none;\n  }\n"], ["\n  ", "\n  padding: 5px 10px;\n  text-align: center;\n  border-radius: 2px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 18px;\n  background: ",
     ";\n  &:focus {\n    border: none;\n    outline: none;\n  }\n"])), ButtonBase, function (props) {
     return props.active ? _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].Red : _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].LightGray;
 });
@@ -14360,6 +14439,7 @@ var SubtitleListClearFilterButton = styled_components__WEBPACK_IMPORTED_MODULE_2
 var SubtitleScrollList = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_11 || (templateObject_11 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  position: relative;\n  overflow-x: hidden;\n  overflow-y: auto;\n  padding: 5px 10px;\n  margin: 5px 5px 0px 0px;\n  ::-webkit-scrollbar {\n    background-color: ", ";\n    width: 5px;\n    margin-right: 5px;\n  }\n  ::-webkit-scrollbar-thumb {\n    background: ", ";\n    border-radius: 2px;\n  }\n"], ["\n  display: flex;\n  flex-direction: column;\n  position: relative;\n  overflow-x: hidden;\n  overflow-y: auto;\n  padding: 5px 10px;\n  margin: 5px 5px 0px 0px;\n  ::-webkit-scrollbar {\n    background-color: ", ";\n    width: 5px;\n    margin-right: 5px;\n  }\n  ::-webkit-scrollbar-thumb {\n    background: ", ";\n    border-radius: 2px;\n  }\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].Clear, _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].DarkBlue);
 function SubtitleList(props) {
     var subtitles = props.subtitles;
+    var fontFamily = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_App__WEBPACK_IMPORTED_MODULE_4__["AppCtx"]).appProps.fontFamily;
     var filterInputRef = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
     var scrollRef = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
     var _a = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])(""), filterVal = _a[0], setFilterVal = _a[1];
@@ -14385,7 +14465,7 @@ function SubtitleList(props) {
     return (React.createElement(SubtitleListContainer, null,
         React.createElement(SubtitleListToolsContainer, null,
             React.createElement(SubtitleListFilterInputContainer, null,
-                React.createElement(SubtitleListFilterInput, { placeholder: "Search Captions ...", ref: filterInputRef, value: filterVal, onChange: handleFilterValChange }),
+                React.createElement(SubtitleListFilterInput, { fontFamily: fontFamily, placeholder: "Search Captions ...", ref: filterInputRef, value: filterVal, onChange: handleFilterValChange }),
                 React.createElement(SubtitleListClearFilterButton, { onClick: handleClearFilterButtonClick }, "\u2716")),
             React.createElement(SubtitleListAutoScrollButton, { active: autoScroll, onClick: handleAutoScrollButtonClick }, "scroll")),
         React.createElement(SubtitleScrollList, { ref: scrollRef }, subs.map(function (sub) { return (React.createElement(SubtitleDisplay, { autoScroll: autoScroll, key: sub.data.start, subtitle: sub, scrollRef: scrollRef })); }))));
@@ -14635,6 +14715,27 @@ function loadHypothesisScript(ctx) {
         elem.onerror = function (err) { return reject(err); };
         ctx.head.appendChild(elem);
     });
+}
+
+
+/***/ }),
+
+/***/ "./src/utils/string.ts":
+/*!*****************************!*\
+  !*** ./src/utils/string.ts ***!
+  \*****************************/
+/*! exports provided: isEmptyOrUndefined */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEmptyOrUndefined", function() { return isEmptyOrUndefined; });
+function isEmptyOrUndefined(str) {
+    if (!str)
+        return true;
+    if (str === "")
+        return true;
+    return false;
 }
 
 

@@ -2,13 +2,14 @@ import {
   createContext,
   useEffect,
   useState,
-  useCallback
+  useCallback,
+  useRef
 } from "@wordpress/element";
 import Subtitles from "./components/Subtitles";
 import VideoPlayer, { IPlayerConfig, ITrack } from "./components/VideoPlayer";
 import { loadHypothesisScript } from "./utils/scriptloader";
 import styled from "styled-components";
-
+import { isEmptyOrUndefined } from "./utils/string";
 import "./styles/fonts.css";
 
 import { JWPlayerStatic } from "./types/jwplayer";
@@ -18,14 +19,35 @@ declare global {
   }
 }
 
-const AppContainer = styled.div`
+const AppContainerBase = (props: IAppProps) => `
   display: grid;
-  font-family: "Roboto Condensed", Helvetica, sans-serif;
+  font-family:
+    ${
+      isEmptyOrUndefined(props.fontFamily)
+        ? '"Roboto Condensed", Helvetica, sans-serif'
+        : props.fontFamily
+    };
+  font-weight: 400;
+  width: ${isEmptyOrUndefined(props.width) ? "auto" : props.width + "px"};
+  height: ${isEmptyOrUndefined(props.height) ? "500" : props.height}px;
+`;
+
+const AppContainerLandscape = styled.div`
+  ${AppContainerBase};
   grid-template-columns: 50% 50%;
   align-items: stretch;
-  font-weight: 400;
   grid-auto-rows: 1fr;
-  height: 500px;
+`;
+
+const AppContainerPortrait = styled.div`
+  ${AppContainerBase};
+  grid-template-columns: 1fr;
+  align-items: stretch;
+  grid-template-rows: 50% 50%;
+  height: ${(props: IAppProps) =>
+    isEmptyOrUndefined(props.height)
+      ? "1000"
+      : (parseInt(props.height || "1000", 10) * 2).toString()}px;
 `;
 
 const NoPlayerWarningContainer = styled.div`
@@ -43,25 +65,40 @@ interface AppCtxValue {
   currentTime: number;
   subtitleTrack: ITrack | null;
   setTime: (time: number) => void;
+  appProps: IAppProps;
 }
 
 const defaultAppCtxValue: AppCtxValue = {
   currentTime: 0,
   subtitleTrack: null,
-  setTime: (time: number) => {}
+  setTime: (time: number) => {},
+  appProps: { loadHypothesis: true, responsive: true }
 };
 
 export const AppCtx = createContext(defaultAppCtxValue);
 export const DYNAMIC_PLAYER_EMBED_ID = "dynamic-player-embed-block";
 
-function App(props: { loadHypothesis: boolean; playerEmbed?: string }) {
-  const { loadHypothesis, playerEmbed } = props;
+export interface IAppProps {
+  loadHypothesis: boolean;
+  playerEmbed?: string;
+  width?: string;
+  height?: string;
+  fontFamily?: string;
+  responsive: boolean;
+}
+
+function App(props: IAppProps) {
+  const { loadHypothesis, playerEmbed, ...rest } = props;
+  const { responsive } = rest;
+  const appRef = useRef<HTMLDivElement | null>(null);
   const [currentTime, setCurrentTime] = useState(
     defaultAppCtxValue.currentTime
   );
   const [seek, setSeek] = useState<number | undefined>(undefined);
   const [subtitleTracks, setSubtitleTracks] = useState<ITrack[]>([]);
   const [currentTrackIdx, setCurrentTrackIdx] = useState(0);
+  const [portrait, setPortrait] = useState(false);
+
   const handleConfig = useCallback(
     (config: IPlayerConfig): void => {
       // retrieve subtitle tracks from config - for now just grab the first tracks from playlist
@@ -87,14 +124,41 @@ function App(props: { loadHypothesis: boolean; playerEmbed?: string }) {
     }
   }, [loadHypothesis]);
 
+  useEffect(() => {
+    function handleResize() {
+      if (appRef.current) {
+        const parent = appRef.current.parentElement;
+        if (parent) {
+          const { width } = parent.getBoundingClientRect();
+          if (width < 738) {
+            setPortrait(true);
+          } else {
+            setPortrait(false);
+          }
+        }
+      }
+    }
+
+    if (responsive) {
+      window.addEventListener("resize", handleResize);
+    }
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [responsive, appRef]);
+
   const subtitleTrack =
     subtitleTracks.length > currentTrackIdx
       ? subtitleTracks[currentTrackIdx]
       : null;
+  const AppContainer = portrait ? AppContainerPortrait : AppContainerLandscape;
   if (playerEmbed) {
     return (
-      <AppCtx.Provider value={{ currentTime, subtitleTrack, setTime }}>
-        <AppContainer>
+      <AppCtx.Provider
+        value={{ currentTime, subtitleTrack, setTime, appProps: props }}
+      >
+        <AppContainer ref={appRef} {...rest}>
           <Subtitles />
           <VideoPlayer
             seek={seek}
