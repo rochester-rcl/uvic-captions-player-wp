@@ -14737,13 +14737,14 @@ function onEditBlock(props) {
     var updateResponsive = function (val) {
         setAttributes({ responsive: val });
     };
+    console.log(attributes.responsive);
     var blockProps = Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__["useBlockProps"])();
     return (React.createElement("div", __assign({}, blockProps),
         React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["TextareaControl"], { label: "Embed UVic Player", value: attributes.playerEmbed, rows: 20, onChange: updateFieldValue }),
         React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["__experimentalNumberControl"], { label: "Set Width (px)", value: attributes.width || "", onChange: updateWidthValue }),
         React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["__experimentalNumberControl"], { label: "Set Height (px)", value: attributes.height || "", onChange: updateHeightValue }),
         React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["TextControl"], { label: "Set Font Family", value: attributes.fontFamily || "", onChange: updateFontFamily }),
-        React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CheckboxControl"], { label: "Responsive Layout", isChecked: attributes.responsive, onChange: updateResponsive }),
+        React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CheckboxControl"], { label: "Responsive Layout", checked: attributes.responsive, onChange: updateResponsive }),
         React.createElement(_App__WEBPACK_IMPORTED_MODULE_3__["default"], __assign({ loadHypothesis: false }, attributes))));
 }
 function onSaveBlock(props) {

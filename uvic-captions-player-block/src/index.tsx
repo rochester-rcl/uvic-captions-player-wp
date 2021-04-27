@@ -63,6 +63,7 @@ function onEditBlock(props: BlockEditProps<IUvicPlayerBlockProps>) {
   const updateResponsive = (val: boolean) => {
     setAttributes({ responsive: val });
   }
+  console.log(attributes.responsive);
   const blockProps = useBlockProps();
   return (
     <div {...blockProps}>
@@ -89,7 +90,7 @@ function onEditBlock(props: BlockEditProps<IUvicPlayerBlockProps>) {
       />
       <CheckboxControl
         label="Responsive Layout"
-        isChecked={attributes.responsive}
+        checked={attributes.responsive}
         onChange={updateResponsive}
       />
       <App loadHypothesis={false} {...attributes} />
