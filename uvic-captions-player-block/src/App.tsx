@@ -5,7 +5,7 @@ import {
   useCallback,
   useRef
 } from "@wordpress/element";
-import Subtitles from "./components/Subtitles";
+import Subtitles from "./components/subtitles/Subtitles";
 import VideoPlayer, { IPlayerConfig, ITrack } from "./components/VideoPlayer";
 import { loadHypothesisScript } from "./utils/scriptloader";
 import styled from "styled-components";
