@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback, useRef } from "@wordpress/element";
 import { loadJWPlayerScript } from "../utils/scriptloader";
 import styled from "styled-components";
 import { JWPlayer, TimeParam } from "../types/jwplayer";
+import Palette from "../styles/palette";
 
 interface IVideoPlayerProps {
   rawHtml: string;
@@ -88,6 +89,7 @@ function parseRawHtml(html: string): IPlayer {
 const VideoPlayerContainer = styled.div`
   position: relative;
   max-height: inherit;
+  background: ${Palette.Black};
   display: flex;
   margin: 20px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);

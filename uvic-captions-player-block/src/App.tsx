@@ -19,7 +19,7 @@ declare global {
   }
 }
 
-const AppContainerBase = (props: IAppProps) => `
+const AppContainerBase = (props: IAppContainerProps) => `
   display: grid;
   font-family:
     ${
@@ -32,22 +32,27 @@ const AppContainerBase = (props: IAppProps) => `
   height: ${isEmptyOrUndefined(props.height) ? "500" : props.height}px;
 `;
 
-const AppContainerLandscape = styled.div`
-  ${AppContainerBase};
+const AppContainerLandscape = `
   grid-template-columns: 50% 50%;
   align-items: stretch;
   grid-auto-rows: 1fr;
 `;
 
-const AppContainerPortrait = styled.div`
-  ${AppContainerBase};
+const AppContainerPortrait = (props: IAppContainerProps) => `
   grid-template-columns: 1fr;
   align-items: stretch;
   grid-template-rows: 50% 50%;
-  height: ${(props: IAppProps) =>
+  height: ${
     isEmptyOrUndefined(props.height)
       ? "1000"
-      : (parseInt(props.height || "1000", 10) * 2).toString()}px;
+      : (parseInt(props.height || "1000", 10) * 2).toString()
+  }px;
+`;
+
+const AppContainer = styled.div`
+  ${AppContainerBase}
+  ${(props: IAppContainerProps) =>
+    props.portrait ? AppContainerPortrait : AppContainerLandscape}
 `;
 
 const NoPlayerWarningContainer = styled.div`
@@ -87,9 +92,15 @@ export interface IAppProps {
   responsive: boolean;
 }
 
+interface IAppContainerProps {
+  width?: string;
+  height?: string;
+  fontFamily?: string;
+  portrait: boolean;
+}
+
 function App(props: IAppProps) {
-  const { loadHypothesis, playerEmbed, ...rest } = props;
-  const { responsive } = rest;
+  const { loadHypothesis, playerEmbed, responsive, ...rest } = props;
   const appRef = useRef<HTMLDivElement | null>(null);
   const [currentTime, setCurrentTime] = useState(
     defaultAppCtxValue.currentTime
@@ -141,6 +152,7 @@ function App(props: IAppProps) {
 
     if (responsive) {
       window.addEventListener("resize", handleResize);
+      handleResize();
     }
 
     return () => {
@@ -152,13 +164,13 @@ function App(props: IAppProps) {
     subtitleTracks.length > currentTrackIdx
       ? subtitleTracks[currentTrackIdx]
       : null;
-  const AppContainer = portrait ? AppContainerPortrait : AppContainerLandscape;
+
   if (playerEmbed) {
     return (
       <AppCtx.Provider
         value={{ currentTime, subtitleTrack, setTime, appProps: props }}
       >
-        <AppContainer ref={appRef} {...rest}>
+        <AppContainer ref={appRef} portrait={portrait} {...rest}>
           <Subtitles />
           <VideoPlayer
             seek={seek}

@@ -14174,15 +14174,16 @@ var __rest = (undefined && undefined.__rest) || function (s, e) {
 var AppContainerBase = function (props) { return "\n  display: grid;\n  font-family:\n    " + (Object(_utils_string__WEBPACK_IMPORTED_MODULE_5__["isEmptyOrUndefined"])(props.fontFamily)
     ? '"Roboto Condensed", Helvetica, sans-serif'
     : props.fontFamily) + ";\n  font-weight: 400;\n  width: " + (Object(_utils_string__WEBPACK_IMPORTED_MODULE_5__["isEmptyOrUndefined"])(props.width) ? "auto" : props.width + "px") + ";\n  height: " + (Object(_utils_string__WEBPACK_IMPORTED_MODULE_5__["isEmptyOrUndefined"])(props.height) ? "500" : props.height) + "px;\n"; };
-var AppContainerLandscape = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  ", ";\n  grid-template-columns: 50% 50%;\n  align-items: stretch;\n  grid-auto-rows: 1fr;\n"], ["\n  ", ";\n  grid-template-columns: 50% 50%;\n  align-items: stretch;\n  grid-auto-rows: 1fr;\n"])), AppContainerBase);
-var AppContainerPortrait = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  ", ";\n  grid-template-columns: 1fr;\n  align-items: stretch;\n  grid-template-rows: 50% 50%;\n  height: ", "px;\n"], ["\n  ", ";\n  grid-template-columns: 1fr;\n  align-items: stretch;\n  grid-template-rows: 50% 50%;\n  height: ",
-    "px;\n"])), AppContainerBase, function (props) {
-    return Object(_utils_string__WEBPACK_IMPORTED_MODULE_5__["isEmptyOrUndefined"])(props.height)
-        ? "1000"
-        : (parseInt(props.height || "1000", 10) * 2).toString();
+var AppContainerLandscape = "\n  grid-template-columns: 50% 50%;\n  align-items: stretch;\n  grid-auto-rows: 1fr;\n";
+var AppContainerPortrait = function (props) { return "\n  grid-template-columns: 1fr;\n  align-items: stretch;\n  grid-template-rows: 50% 50%;\n  height: " + (Object(_utils_string__WEBPACK_IMPORTED_MODULE_5__["isEmptyOrUndefined"])(props.height)
+    ? "1000"
+    : (parseInt(props.height || "1000", 10) * 2).toString()) + "px;\n"; };
+var AppContainer = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  ", "\n  ", "\n"], ["\n  ", "\n  ",
+    "\n"])), AppContainerBase, function (props) {
+    return props.portrait ? AppContainerPortrait : AppContainerLandscape;
 });
-var NoPlayerWarningContainer = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n"], ["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n"])));
-var NoPlayerWarning = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].h1(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n  padding: 10px;\n"], ["\n  padding: 10px;\n"])));
+var NoPlayerWarningContainer = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n"], ["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n"])));
+var NoPlayerWarning = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].h1(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  padding: 10px;\n"], ["\n  padding: 10px;\n"])));
 var defaultAppCtxValue = {
     currentTime: 0,
     subtitleTrack: null,
@@ -14192,8 +14193,7 @@ var defaultAppCtxValue = {
 var AppCtx = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createContext"])(defaultAppCtxValue);
 var DYNAMIC_PLAYER_EMBED_ID = "dynamic-player-embed-block";
 function App(props) {
-    var loadHypothesis = props.loadHypothesis, playerEmbed = props.playerEmbed, rest = __rest(props, ["loadHypothesis", "playerEmbed"]);
-    var responsive = rest.responsive;
+    var loadHypothesis = props.loadHypothesis, playerEmbed = props.playerEmbed, responsive = props.responsive, rest = __rest(props, ["loadHypothesis", "playerEmbed", "responsive"]);
     var appRef = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
     var _a = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])(defaultAppCtxValue.currentTime), currentTime = _a[0], setCurrentTime = _a[1];
     var _b = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])(undefined), seek = _b[0], setSeek = _b[1];
@@ -14232,6 +14232,7 @@ function App(props) {
         }
         if (responsive) {
             window.addEventListener("resize", handleResize);
+            handleResize();
         }
         return function () {
             window.removeEventListener("resize", handleResize);
@@ -14240,10 +14241,9 @@ function App(props) {
     var subtitleTrack = subtitleTracks.length > currentTrackIdx
         ? subtitleTracks[currentTrackIdx]
         : null;
-    var AppContainer = portrait ? AppContainerPortrait : AppContainerLandscape;
     if (playerEmbed) {
         return (React.createElement(AppCtx.Provider, { value: { currentTime: currentTime, subtitleTrack: subtitleTrack, setTime: setTime, appProps: props } },
-            React.createElement(AppContainer, __assign({ ref: appRef }, rest),
+            React.createElement(AppContainer, __assign({ ref: appRef, portrait: portrait }, rest),
                 React.createElement(_components_Subtitles__WEBPACK_IMPORTED_MODULE_1__["default"], null),
                 React.createElement(_components_VideoPlayer__WEBPACK_IMPORTED_MODULE_2__["default"], { seek: seek, rawHtml: playerEmbed, onTime: setCurrentTime, onPlayerConfigParsed: handleConfig, onCaptionsChanged: handleCaptionsChange }))));
     }
@@ -14254,7 +14254,7 @@ function App(props) {
     }
 }
 /* harmony default export */ __webpack_exports__["default"] = (App);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
+var templateObject_1, templateObject_2, templateObject_3;
 
 
 /***/ }),
@@ -14370,7 +14370,7 @@ function SubtitleDisplay(props) {
         React.createElement(SubtitleTimecode, null, Object(subtitle__WEBPACK_IMPORTED_MODULE_1__["formatTimestamp"])(start).replace(/\,(.*)/g, "")),
         React.createElement(SubtitleText, null, text)));
 }
-var SubtitleListContainer = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n  display: flex;\n  background: ", ";\n  flex-direction: column;\n  justify-content: flex-start;\n  margin: 20px;\n  overflow: hidden;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"], ["\n  display: flex;\n  background: ", ";\n  flex-direction: column;\n  justify-content: flex-start;\n  margin: 20px;\n  overflow: hidden;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].White);
+var SubtitleListContainer = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n  display: flex;\n  background: ", ";\n  flex-direction: column;\n  justify-content: flex-start;\n  margin: 20px;\n  min-width: 375px;\n  overflow: hidden;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"], ["\n  display: flex;\n  background: ", ";\n  flex-direction: column;\n  justify-content: flex-start;\n  margin: 20px;\n  min-width: 375px;\n  overflow: hidden;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].White);
 var SubtitleListToolsContainer = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: row;\n  align-items: baseline;\n  justify-content: space-between;\n  padding: 20px;\n  background: ", ";\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"], ["\n  display: flex;\n  flex-direction: row;\n  align-items: baseline;\n  justify-content: space-between;\n  padding: 20px;\n  background: ", ";\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].DarkBlue);
 var SubtitleListFilterInput = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].input(templateObject_6 || (templateObject_6 = __makeTemplateObject(["\n  border: none;\n  color: ", ";\n  background: none;\n  font-size: 20px;\n  font-family: ", ";\n  height: 50px;\n  max-width: 400px;\n  &:focus {\n    outline: none;\n  }\n  &::placeholder {\n    color: ", ";\n  }\n"], ["\n  border: none;\n  color: ", ";\n  background: none;\n  font-size: 20px;\n  font-family: ",
     ";\n  height: 50px;\n  max-width: 400px;\n  &:focus {\n    outline: none;\n  }\n  &::placeholder {\n    color: ", ";\n  }\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].White, function (props) {
@@ -14450,6 +14450,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils_scriptloader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/scriptloader */ "./src/utils/scriptloader.ts");
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+/* harmony import */ var _styles_palette__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../styles/palette */ "./src/styles/palette.ts");
 var __makeTemplateObject = (undefined && undefined.__makeTemplateObject) || function (cooked, raw) {
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
@@ -14504,6 +14505,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 function parsePlayerConfig(rawObj) {
     var evalFunc = Function("\"use strict\";return (" + rawObj + ")");
     return evalFunc();
@@ -14527,7 +14529,7 @@ function parseRawHtml(html) {
     }
     throw new Error("Unable to Parse Player HTML");
 }
-var VideoPlayerContainer = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  position: relative;\n  max-height: inherit;\n  display: flex;\n  margin: 20px;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"], ["\n  position: relative;\n  max-height: inherit;\n  display: flex;\n  margin: 20px;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"])));
+var VideoPlayerContainer = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  position: relative;\n  max-height: inherit;\n  background: ", ";\n  display: flex;\n  margin: 20px;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"], ["\n  position: relative;\n  max-height: inherit;\n  background: ", ";\n  display: flex;\n  margin: 20px;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].Black);
 function VideoPlayer(props) {
     var _this = this;
     var rawHtml = props.rawHtml, seek = props.seek, onTime = props.onTime, onPlayerReady = props.onPlayerReady, onPlayerConfigParsed = props.onPlayerConfigParsed, onCaptionsChanged = props.onCaptionsChanged;
