@@ -16,6 +16,10 @@ async function loadSubtitlesFromUrl(url: string): Promise<ISubtitle[]> {
   return subtitles.map(node => node as ISubtitle);
 }
 
+/**
+ * The root component for the subtitle display
+ * @returns 
+ */
 export default function Subtitles() {
   const { subtitleTrack } = useContext(AppCtx);
   const [subs, setSubs] = useState<ISubtitle[] | null>(null);

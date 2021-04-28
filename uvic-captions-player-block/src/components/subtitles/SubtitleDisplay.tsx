@@ -10,18 +10,27 @@ import type {
   IScreenPos
 } from "./types";
 
+/**
+ * A basic component to display a timecode
+ */
 const SubtitleTimecode = styled.div`
   font-size: 14px;
   margin-right: 10px;
   flex: 0.1;
 `;
 
+/**
+ * A basic component to display the text content of a subtitle
+ */
 const SubtitleText = styled.div`
   font-size: 18px;
   flex: 0.9;
   padding-bottom: 10px;
 `;
 
+/**
+ * Container component to display a SubtitleTimecode and SubtitleText
+ */
 const SubtitleDisplayContainer = styled.div`
   padding: 5px;
   display: grid;
@@ -36,6 +45,14 @@ const SubtitleDisplayContainer = styled.div`
   }
 `;
 
+/**
+ * Renders a subtitle's timecode and text content.
+ * Sets global video player time to the start time of
+ * its subtitle prop when clicked.
+ * 
+ * @param props - see ISubtitleDisplayProps interface
+ * @returns 
+ */
 export default function SubtitleDisplay(props: ISubtitleDisplayProps) {
   const { autoScroll, scrollRef } = props;
   const { setTime } = useContext(AppCtx);
@@ -48,6 +65,7 @@ export default function SubtitleDisplay(props: ISubtitleDisplayProps) {
   const { currentTime } = useContext(AppCtx);
   const active = currentTime >= start && currentTime <= end;
 
+  // ensures video player only seeks when clicking, not highlighting
   function handleMouseDown(evt: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     setMouseDownPos(({ screenX, screenY } = evt));
   }

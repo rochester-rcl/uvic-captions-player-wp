@@ -4,6 +4,9 @@ import styled from "styled-components";
 import { JWPlayer, TimeParam } from "../types/jwplayer";
 import Palette from "../styles/palette";
 
+/**
+ * Interface for high-level VideoPlayer component props
+ */
 interface IVideoPlayerProps {
   rawHtml: string;
   seek?: number;
@@ -13,10 +16,16 @@ interface IVideoPlayerProps {
   onCaptionsChanged?: (idx: number) => void; // captions index
 }
 
+/**
+ * Interface representing a JWPlayer source objectBut 
+ */
 interface ISource {
   file: string;
 }
 
+/**
+ * Interface representing a JWPlayer track object
+ */
 export interface ITrack {
   file: string;
   label: string;
@@ -30,6 +39,9 @@ interface ICaptionsChangedParam {
   type: string;
 }
 
+/**
+ * Represents a JWPlayer Playlist item
+ */
 interface IPlaylistItem {
   title: string;
   image?: string;
@@ -37,6 +49,9 @@ interface IPlaylistItem {
   tracks: ITrack[];
 }
 
+/**
+ * Interface for a standard JWPlayer config
+ */
 export interface IPlayerConfig {
   flashplayer: string;
   playlist: IPlaylistItem[];
@@ -52,17 +67,37 @@ export interface IPlayerConfig {
   };
 }
 
+/**
+ * Higher-level interface for storing parsed JWPlayer info
+ */
 interface IPlayer {
   jwPlayerSrc: string;
   jwPlayerKey: string;
   config: IPlayerConfig;
 }
 
+/**
+ * Parses a stringified JWPlayer config and returns it
+ * as a JS object
+ * WARNING - uses eval and could pose a security threat 
+ * if used outside of this context
+ * 
+ * @param rawObj - the raw stringified JS Object (not JSON)
+ * @returns 
+ */
 function parsePlayerConfig(rawObj: string): IPlayerConfig {
   const evalFunc = Function(`"use strict";return (${rawObj})`);
   return evalFunc() as IPlayerConfig;
 }
 
+/**
+ * Parses a raw html string and attempts to extract
+ * the JWPlayer source script, key, and config
+ * 
+ * @param html - raw html snippet containing 
+ * the JWPlayer constructor and config
+ * @returns 
+ */
 function parseRawHtml(html: string): IPlayer {
   // grab source and key
   const src = html.match(/src="(.*)\.js*/);
@@ -86,15 +121,26 @@ function parseRawHtml(html: string): IPlayer {
   throw new Error("Unable to Parse Player HTML");
 }
 
+/**
+ * Flex container component to house the JWPlayer element 
+ */
 const VideoPlayerContainer = styled.div`
   position: relative;
   max-height: inherit;
   background: ${Palette.Black};
   display: flex;
   margin: 20px;
+  min-width: 350px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
 
+/**
+ * The root VideoPlayer component. Renders a JWPlayer parsed
+ * from a raw html snippet
+ * 
+ * @param props - see the IVideoPlayerProps interface
+ * @returns 
+ */
 export default function VideoPlayer(props: IVideoPlayerProps) {
   const {
     rawHtml,

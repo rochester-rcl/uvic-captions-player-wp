@@ -13,12 +13,18 @@ import { isEmptyOrUndefined } from "./utils/string";
 import "./styles/fonts.css";
 
 import { JWPlayerStatic } from "./types/jwplayer";
+
 declare global {
   interface Window {
     jwplayer?: JWPlayerStatic;
   }
 }
-
+/**
+ * App container mixin component.
+ * 
+ * @param props - see IAppContainerProps interface
+ * @returns 
+ */
 const AppContainerBase = (props: IAppContainerProps) => `
   display: grid;
   font-family:
@@ -32,12 +38,21 @@ const AppContainerBase = (props: IAppContainerProps) => `
   height: ${isEmptyOrUndefined(props.height) ? "500" : props.height}px;
 `;
 
+/**
+ * Mixin styles for landscape app display
+ */
 const AppContainerLandscape = `
   grid-template-columns: 50% 50%;
   align-items: stretch;
   grid-auto-rows: 1fr;
 `;
 
+/**
+ * Mixin styles for portrait app display
+ * 
+ * @param props - see IAppContainerProps interface
+ * @returns 
+ */
 const AppContainerPortrait = (props: IAppContainerProps) => `
   grid-template-columns: 1fr;
   align-items: stretch;
@@ -49,12 +64,18 @@ const AppContainerPortrait = (props: IAppContainerProps) => `
   }px;
 `;
 
+/**
+ * Component for setting the height, width, font-family, and layout of the app
+ */
 const AppContainer = styled.div`
   ${AppContainerBase}
   ${(props: IAppContainerProps) =>
     props.portrait ? AppContainerPortrait : AppContainerLandscape}
 `;
 
+/**
+ * Container component to display a warning if JWPlayer content couldn't be parsed
+ */
 const NoPlayerWarningContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -62,10 +83,16 @@ const NoPlayerWarningContainer = styled.div`
   justify-content: center;
 `;
 
+/**
+ * Header component to display a warning if JWPlayer couldn't be parsed
+ */
 const NoPlayerWarning = styled.h1`
   padding: 10px;
 `;
 
+/**
+ * Interface for all available properties in AppCtx
+ */
 interface AppCtxValue {
   currentTime: number;
   subtitleTrack: ITrack | null;
@@ -73,16 +100,22 @@ interface AppCtxValue {
   appProps: IAppProps;
 }
 
+/**
+ * Default prop values provided with AppCtx
+ */
 const defaultAppCtxValue: AppCtxValue = {
   currentTime: 0,
   subtitleTrack: null,
-  setTime: (time: number) => {},
+  setTime: (time: number) => null,
   appProps: { loadHypothesis: true, responsive: true }
 };
 
 export const AppCtx = createContext(defaultAppCtxValue);
 export const DYNAMIC_PLAYER_EMBED_ID = "dynamic-player-embed-block";
 
+/**
+ * All available props for the App component
+ */
 export interface IAppProps {
   loadHypothesis: boolean;
   playerEmbed?: string;
@@ -92,6 +125,9 @@ export interface IAppProps {
   responsive: boolean;
 }
 
+/**
+ * All available props for the AppContainer component
+ */
 interface IAppContainerProps {
   width?: string;
   height?: string;
@@ -99,6 +135,12 @@ interface IAppContainerProps {
   portrait: boolean;
 }
 
+/**
+ * Main root component to render and sync a JWPlayer and its accompanying subtitles
+ * 
+ * @param props - see IAppProps interface
+ * @returns 
+ */
 function App(props: IAppProps) {
   const { loadHypothesis, playerEmbed, responsive, ...rest } = props;
   const appRef = useRef<HTMLDivElement | null>(null);

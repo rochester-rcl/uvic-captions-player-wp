@@ -1,7 +1,13 @@
 <?php
 
+/**
+ * Class for encapsulating all member functions for the UVicCaptionsPlayer Plugin
+ */
 class UVicCaptionsPlayer {
 
+    /**
+     * Relative path to the build folder for the block
+     */
     private static $_blockFolder = "uvic-captions-player-block/build";
 
     /**
@@ -20,6 +26,9 @@ class UVicCaptionsPlayer {
 
     }
 
+    /**
+     * Registers the block and its client / editor scripts and styles
+     */
     public static function register_block()
     {
         $blockFolder = self::$_blockFolder;

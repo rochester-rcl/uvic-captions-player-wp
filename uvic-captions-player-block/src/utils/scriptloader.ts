@@ -1,5 +1,14 @@
 import { JWPlayerStatic } from "../types/jwplayer";
 
+/**
+ * Loads a JWPlayer script from an external source
+ * 
+ * @param ctx - the DOM context to add the script element to
+ * @param scriptUrl - the URL of the script
+ * @param scriptId - a unique id for the src element
+ * @param playerKey - the JWPlayer license key
+ * @returns 
+ */
 export function loadJWPlayerScript(
   ctx: HTMLDocument,
   scriptUrl: string,
@@ -24,7 +33,12 @@ export function loadJWPlayerScript(
   });
 }
 
-// TODO can expose hypothesis config but it needs to be typed
+/**
+ * Loads a Hypothesis script from an external source
+ * 
+ * @param ctx - the DOM context to add the script element to
+ * @returns 
+ */
 export function loadHypothesisScript(ctx: HTMLDocument): Promise<void> {
   return new Promise((resolve, reject) => {
     const elem = ctx.createElement("script");

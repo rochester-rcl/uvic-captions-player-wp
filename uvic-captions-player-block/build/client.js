@@ -14182,27 +14182,60 @@ var __rest = (undefined && undefined.__rest) || function (s, e) {
 
 
 
+/**
+ * App container mixin component.
+ *
+ * @param props - see IAppContainerProps interface
+ * @returns
+ */
 var AppContainerBase = function (props) { return "\n  display: grid;\n  font-family:\n    " + (Object(_utils_string__WEBPACK_IMPORTED_MODULE_5__["isEmptyOrUndefined"])(props.fontFamily)
     ? '"Roboto Condensed", Helvetica, sans-serif'
     : props.fontFamily) + ";\n  font-weight: 400;\n  width: " + (Object(_utils_string__WEBPACK_IMPORTED_MODULE_5__["isEmptyOrUndefined"])(props.width) ? "auto" : props.width + "px") + ";\n  height: " + (Object(_utils_string__WEBPACK_IMPORTED_MODULE_5__["isEmptyOrUndefined"])(props.height) ? "500" : props.height) + "px;\n"; };
+/**
+ * Mixin styles for landscape app display
+ */
 var AppContainerLandscape = "\n  grid-template-columns: 50% 50%;\n  align-items: stretch;\n  grid-auto-rows: 1fr;\n";
+/**
+ * Mixin styles for portrait app display
+ *
+ * @param props - see IAppContainerProps interface
+ * @returns
+ */
 var AppContainerPortrait = function (props) { return "\n  grid-template-columns: 1fr;\n  align-items: stretch;\n  grid-template-rows: 50% 50%;\n  height: " + (Object(_utils_string__WEBPACK_IMPORTED_MODULE_5__["isEmptyOrUndefined"])(props.height)
     ? "1000"
     : (parseInt(props.height || "1000", 10) * 2).toString()) + "px;\n"; };
+/**
+ * Component for setting the height, width, font-family, and layout of the app
+ */
 var AppContainer = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  ", "\n  ", "\n"], ["\n  ", "\n  ",
     "\n"])), AppContainerBase, function (props) {
     return props.portrait ? AppContainerPortrait : AppContainerLandscape;
 });
+/**
+ * Container component to display a warning if JWPlayer content couldn't be parsed
+ */
 var NoPlayerWarningContainer = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n"], ["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n"])));
+/**
+ * Header component to display a warning if JWPlayer couldn't be parsed
+ */
 var NoPlayerWarning = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].h1(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  padding: 10px;\n"], ["\n  padding: 10px;\n"])));
+/**
+ * Default prop values provided with AppCtx
+ */
 var defaultAppCtxValue = {
     currentTime: 0,
     subtitleTrack: null,
-    setTime: function (time) { },
+    setTime: function (time) { return null; },
     appProps: { loadHypothesis: true, responsive: true }
 };
 var AppCtx = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createContext"])(defaultAppCtxValue);
 var DYNAMIC_PLAYER_EMBED_ID = "dynamic-player-embed-block";
+/**
+ * Main root component to render and sync a JWPlayer and its accompanying subtitles
+ *
+ * @param props - see IAppProps interface
+ * @returns
+ */
 function App(props) {
     var loadHypothesis = props.loadHypothesis, playerEmbed = props.playerEmbed, responsive = props.responsive, rest = __rest(props, ["loadHypothesis", "playerEmbed", "responsive"]);
     var appRef = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null);
@@ -14298,6 +14331,17 @@ var __assign = (undefined && undefined.__assign) || function () {
 
 
 
+/**
+ * Mounts the dynamic App component to the div created by
+ * the block's onSaveBlock callback. Since all components
+ * rendered by onSaveBlock are only rendered on the server side,
+ * this is a hack to mount a dynamic React component on
+ * the client side.
+ *
+ * All necessary props are serialized and stored as data
+ * attributes on the corresponding div with id set in the
+ * DYNAMIC_PLAYER_EMBED_ID constant.
+ */
 window.addEventListener("DOMContentLoaded", function (evt) {
     var wrapper = document.getElementById(_App__WEBPACK_IMPORTED_MODULE_1__["DYNAMIC_PLAYER_EMBED_ID"]);
     if (wrapper) {
@@ -14380,10 +14424,27 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+/**
+ * Parses a stringified JWPlayer config and returns it
+ * as a JS object
+ * WARNING - uses eval and could pose a security threat
+ * if used outside of this context
+ *
+ * @param rawObj - the raw stringified JS Object (not JSON)
+ * @returns
+ */
 function parsePlayerConfig(rawObj) {
     var evalFunc = Function("\"use strict\";return (" + rawObj + ")");
     return evalFunc();
 }
+/**
+ * Parses a raw html string and attempts to extract
+ * the JWPlayer source script, key, and config
+ *
+ * @param html - raw html snippet containing
+ * the JWPlayer constructor and config
+ * @returns
+ */
 function parseRawHtml(html) {
     // grab source and key
     var src = html.match(/src="(.*)\.js*/);
@@ -14403,7 +14464,17 @@ function parseRawHtml(html) {
     }
     throw new Error("Unable to Parse Player HTML");
 }
-var VideoPlayerContainer = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  position: relative;\n  max-height: inherit;\n  background: ", ";\n  display: flex;\n  margin: 20px;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"], ["\n  position: relative;\n  max-height: inherit;\n  background: ", ";\n  display: flex;\n  margin: 20px;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].Black);
+/**
+ * Flex container component to house the JWPlayer element
+ */
+var VideoPlayerContainer = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  position: relative;\n  max-height: inherit;\n  background: ", ";\n  display: flex;\n  margin: 20px;\n  min-width: 350px;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"], ["\n  position: relative;\n  max-height: inherit;\n  background: ", ";\n  display: flex;\n  margin: 20px;\n  min-width: 350px;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_3__["default"].Black);
+/**
+ * The root VideoPlayer component. Renders a JWPlayer parsed
+ * from a raw html snippet
+ *
+ * @param props - see the IVideoPlayerProps interface
+ * @returns
+ */
 function VideoPlayer(props) {
     var _this = this;
     var rawHtml = props.rawHtml, seek = props.seek, onTime = props.onTime, onPlayerReady = props.onPlayerReady, onPlayerConfigParsed = props.onPlayerConfigParsed, onCaptionsChanged = props.onCaptionsChanged;
@@ -14488,12 +14559,29 @@ var __makeTemplateObject = (undefined && undefined.__makeTemplateObject) || func
 
 
 
+/**
+ * A basic component to display a timecode
+ */
 var SubtitleTimecode = styled_components__WEBPACK_IMPORTED_MODULE_3__["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  font-size: 14px;\n  margin-right: 10px;\n  flex: 0.1;\n"], ["\n  font-size: 14px;\n  margin-right: 10px;\n  flex: 0.1;\n"])));
+/**
+ * A basic component to display the text content of a subtitle
+ */
 var SubtitleText = styled_components__WEBPACK_IMPORTED_MODULE_3__["default"].div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  font-size: 18px;\n  flex: 0.9;\n  padding-bottom: 10px;\n"], ["\n  font-size: 18px;\n  flex: 0.9;\n  padding-bottom: 10px;\n"])));
+/**
+ * Container component to display a SubtitleTimecode and SubtitleText
+ */
 var SubtitleDisplayContainer = styled_components__WEBPACK_IMPORTED_MODULE_3__["default"].div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  padding: 5px;\n  display: grid;\n  grid-template-columns: 20% 80%;\n  align-items: baseline;\n  cursor: pointer;\n  color: ", ";\n  transition: color 300ms ease-in-out;\n  &:hover {\n    color: ", ";\n  }\n"], ["\n  padding: 5px;\n  display: grid;\n  grid-template-columns: 20% 80%;\n  align-items: baseline;\n  cursor: pointer;\n  color: ",
     ";\n  transition: color 300ms ease-in-out;\n  &:hover {\n    color: ", ";\n  }\n"])), function (props) {
     return props.active ? _styles_palette__WEBPACK_IMPORTED_MODULE_2__["default"].DarkBlue : _styles_palette__WEBPACK_IMPORTED_MODULE_2__["default"].LightGray;
 }, _styles_palette__WEBPACK_IMPORTED_MODULE_2__["default"].DarkBlue);
+/**
+ * Renders a subtitle's timecode and text content.
+ * Sets global video player time to the start time of
+ * its subtitle prop when clicked.
+ *
+ * @param props - see ISubtitleDisplayProps interface
+ * @returns
+ */
 function SubtitleDisplay(props) {
     var autoScroll = props.autoScroll, scrollRef = props.scrollRef;
     var setTime = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_App__WEBPACK_IMPORTED_MODULE_1__["AppCtx"]).setTime;
@@ -14505,6 +14593,7 @@ function SubtitleDisplay(props) {
     var _b = props.subtitle.data, start = _b.start, end = _b.end, text = _b.text;
     var currentTime = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_App__WEBPACK_IMPORTED_MODULE_1__["AppCtx"]).currentTime;
     var active = currentTime >= start && currentTime <= end;
+    // ensures video player only seeks when clicking, not highlighting
     function handleMouseDown(evt) {
         setMouseDownPos((screenX = evt.screenX, screenY = evt.screenY, evt));
     }
@@ -14560,22 +14649,54 @@ var __makeTemplateObject = (undefined && undefined.__makeTemplateObject) || func
 
 
 
+/**
+ * Basic flex container for scroll tools (search, auto scroll)
+ */
 var SubtitleListToolsContainer = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: row;\n  align-items: baseline;\n  justify-content: space-between;\n  padding: 20px;\n  background: ", ";\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"], ["\n  display: flex;\n  flex-direction: row;\n  align-items: baseline;\n  justify-content: space-between;\n  padding: 20px;\n  background: ", ";\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_2__["default"].DarkBlue);
+/**
+ * Controlled input for captions search filter
+ */
 var SubtitleListFilterInput = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].input(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  border: none;\n  color: ", ";\n  background: none;\n  font-size: 20px;\n  font-family: ", ";\n  height: 50px;\n  max-width: 400px;\n  &:focus {\n    outline: none;\n  }\n  &::placeholder {\n    color: ", ";\n  }\n"], ["\n  border: none;\n  color: ", ";\n  background: none;\n  font-size: 20px;\n  font-family: ",
     ";\n  height: 50px;\n  max-width: 400px;\n  &:focus {\n    outline: none;\n  }\n  &::placeholder {\n    color: ", ";\n  }\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_2__["default"].White, function (props) {
     return Object(_utils_string__WEBPACK_IMPORTED_MODULE_4__["isEmptyOrUndefined"])(props.fontFamily)
         ? '"Roboto Condensed", Helvetica, sans-serif'
         : props.fontFamily;
 }, _styles_palette__WEBPACK_IMPORTED_MODULE_2__["default"].White);
+/**
+ * Container for captions search filter input
+ */
 var SubtitleListFilterInputContainer = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  display: flex;\n  align-items: baseline;\n  justifty-content: flex-start;\n  border-bottom: 2px solid ", ";\n"], ["\n  display: flex;\n  align-items: baseline;\n  justifty-content: flex-start;\n  border-bottom: 2px solid ", ";\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_2__["default"].White);
+/**
+ * Base button style mixin
+ */
 var ButtonBase = Object(styled_components__WEBPACK_IMPORTED_MODULE_1__["css"])(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n  cursor: pointer;\n  border: none;\n  color: ", ";\n  &:focus {\n    border: none;\n    outline: none;\n  }\n"], ["\n  cursor: pointer;\n  border: none;\n  color: ", ";\n  &:focus {\n    border: none;\n    outline: none;\n  }\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_2__["default"].White);
+/**
+ * Button component for toggling subtitle autoscroll
+ */
 var SubtitleListAutoScrollButton = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n  ", "\n  padding: 5px 10px;\n  text-align: center;\n  border-radius: 2px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 18px;\n  background: ", ";\n  &:focus {\n    border: none;\n    outline: none;\n  }\n"], ["\n  ", "\n  padding: 5px 10px;\n  text-align: center;\n  border-radius: 2px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 18px;\n  background: ",
     ";\n  &:focus {\n    border: none;\n    outline: none;\n  }\n"])), ButtonBase, function (props) {
     return props.active ? _styles_palette__WEBPACK_IMPORTED_MODULE_2__["default"].Red : _styles_palette__WEBPACK_IMPORTED_MODULE_2__["default"].LightGray;
 });
+/**
+ * Button component for clearing subtitle search
+ */
 var SubtitleListClearFilterButton = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(templateObject_6 || (templateObject_6 = __makeTemplateObject(["\n  ", "\n  border-radius: 2px;\n  color: ", ";\n  background: none;\n  width: 16px;\n  height: 16px;\n  padding: 2px;\n  font-size: 16px;\n  font-weight: 700;\n"], ["\n  ", "\n  border-radius: 2px;\n  color: ", ";\n  background: none;\n  width: 16px;\n  height: 16px;\n  padding: 2px;\n  font-size: 16px;\n  font-weight: 700;\n"])), ButtonBase, _styles_palette__WEBPACK_IMPORTED_MODULE_2__["default"].White);
+/**
+ * Container component for the scrollable subtitle list
+ */
 var SubtitleListContainer = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(templateObject_7 || (templateObject_7 = __makeTemplateObject(["\n  display: flex;\n  background: ", ";\n  flex-direction: column;\n  justify-content: flex-start;\n  margin: 20px;\n  min-width: 375px;\n  overflow: hidden;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"], ["\n  display: flex;\n  background: ", ";\n  flex-direction: column;\n  justify-content: flex-start;\n  margin: 20px;\n  min-width: 375px;\n  overflow: hidden;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_2__["default"].White);
+/**
+ * Scrollable component for displaying all subtitles
+ */
 var SubtitleScrollList = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(templateObject_8 || (templateObject_8 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  position: relative;\n  overflow-x: hidden;\n  overflow-y: auto;\n  padding: 5px 10px;\n  margin: 5px 5px 0px 0px;\n  ::-webkit-scrollbar {\n    background-color: ", ";\n    width: 5px;\n    margin-right: 5px;\n  }\n  ::-webkit-scrollbar-thumb {\n    background: ", ";\n    border-radius: 2px;\n  }\n"], ["\n  display: flex;\n  flex-direction: column;\n  position: relative;\n  overflow-x: hidden;\n  overflow-y: auto;\n  padding: 5px 10px;\n  margin: 5px 5px 0px 0px;\n  ::-webkit-scrollbar {\n    background-color: ", ";\n    width: 5px;\n    margin-right: 5px;\n  }\n  ::-webkit-scrollbar-thumb {\n    background: ", ";\n    border-radius: 2px;\n  }\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_2__["default"].Clear, _styles_palette__WEBPACK_IMPORTED_MODULE_2__["default"].DarkBlue);
+/**
+ * Renders a scrollable list of SubtitleDisplay components,
+ * with tools to toggle auto scrolling
+ * and filter subtitle content
+ *
+ * @param props - see ISubtitleListProps interface
+ * @returns
+ */
 function SubtitleList(props) {
     var subtitles = props.subtitles;
     var fontFamily = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_App__WEBPACK_IMPORTED_MODULE_3__["AppCtx"]).appProps.fontFamily;
@@ -14689,6 +14810,10 @@ function loadSubtitlesFromUrl(url) {
         });
     });
 }
+/**
+ * The root component for the subtitle display
+ * @returns
+ */
 function Subtitles() {
     var subtitleTrack = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_App__WEBPACK_IMPORTED_MODULE_2__["AppCtx"]).subtitleTrack;
     var _a = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])(null), subs = _a[0], setSubs = _a[1];
@@ -14752,6 +14877,15 @@ var Palette;
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadJWPlayerScript", function() { return loadJWPlayerScript; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadHypothesisScript", function() { return loadHypothesisScript; });
+/**
+ * Loads a JWPlayer script from an external source
+ *
+ * @param ctx - the DOM context to add the script element to
+ * @param scriptUrl - the URL of the script
+ * @param scriptId - a unique id for the src element
+ * @param playerKey - the JWPlayer license key
+ * @returns
+ */
 function loadJWPlayerScript(ctx, scriptUrl, scriptId, playerKey) {
     return new Promise(function (resolve, reject) {
         var elem = ctx.createElement("script");
@@ -14771,7 +14905,12 @@ function loadJWPlayerScript(ctx, scriptUrl, scriptId, playerKey) {
         elem.onerror = function (err) { return reject(err); };
     });
 }
-// TODO can expose hypothesis config but it needs to be typed
+/**
+ * Loads a Hypothesis script from an external source
+ *
+ * @param ctx - the DOM context to add the script element to
+ * @returns
+ */
 function loadHypothesisScript(ctx) {
     return new Promise(function (resolve, reject) {
         var elem = ctx.createElement("script");
@@ -14797,6 +14936,11 @@ function loadHypothesisScript(ctx) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEmptyOrUndefined", function() { return isEmptyOrUndefined; });
+/**
+ * Checks whether or not a script is empty or undefined
+ * @param str - the string to check
+ * @returns
+ */
 function isEmptyOrUndefined(str) {
     if (!str)
         return true;

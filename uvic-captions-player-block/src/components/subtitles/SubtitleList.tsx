@@ -12,6 +12,9 @@ import { isEmptyOrUndefined } from "../../utils/string";
 import type { IClickableProps, ISubtitleListProps, ISubtitle } from "./types";
 import SubtitleDisplay from "./SubtitleDisplay";
 
+/**
+ * Basic flex container for scroll tools (search, auto scroll)
+ */
 const SubtitleListToolsContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -22,6 +25,9 @@ const SubtitleListToolsContainer = styled.div`
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
 
+/**
+ * Controlled input for captions search filter
+ */
 const SubtitleListFilterInput = styled.input`
   border: none;
   color: ${Palette.White};
@@ -41,6 +47,9 @@ const SubtitleListFilterInput = styled.input`
   }
 `;
 
+/**
+ * Container for captions search filter input
+ */
 const SubtitleListFilterInputContainer = styled.div`
   display: flex;
   align-items: baseline;
@@ -48,6 +57,9 @@ const SubtitleListFilterInputContainer = styled.div`
   border-bottom: 2px solid ${Palette.White};
 `;
 
+/**
+ * Base button style mixin
+ */
 const ButtonBase = css`
   cursor: pointer;
   border: none;
@@ -58,6 +70,9 @@ const ButtonBase = css`
   }
 `;
 
+/**
+ * Button component for toggling subtitle autoscroll
+ */
 const SubtitleListAutoScrollButton = styled.div`
   ${ButtonBase}
   padding: 5px 10px;
@@ -75,6 +90,9 @@ const SubtitleListAutoScrollButton = styled.div`
   }
 `;
 
+/**
+ * Button component for clearing subtitle search
+ */
 const SubtitleListClearFilterButton = styled.div`
   ${ButtonBase}
   border-radius: 2px;
@@ -87,6 +105,9 @@ const SubtitleListClearFilterButton = styled.div`
   font-weight: 700;
 `;
 
+/**
+ * Container component for the scrollable subtitle list
+ */
 const SubtitleListContainer = styled.div`
   display: flex;
   background: ${Palette.White};
@@ -98,6 +119,9 @@ const SubtitleListContainer = styled.div`
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
 
+/**
+ * Scrollable component for displaying all subtitles
+ */
 const SubtitleScrollList = styled.div`
   display: flex;
   flex-direction: column;
@@ -117,6 +141,14 @@ const SubtitleScrollList = styled.div`
   }
 `;
 
+/**
+ * Renders a scrollable list of SubtitleDisplay components, 
+ * with tools to toggle auto scrolling
+ * and filter subtitle content
+ * 
+ * @param props - see ISubtitleListProps interface
+ * @returns 
+ */
 export default function SubtitleList(props: ISubtitleListProps) {
   const { subtitles } = props;
   const { fontFamily } = useContext(AppCtx).appProps;
