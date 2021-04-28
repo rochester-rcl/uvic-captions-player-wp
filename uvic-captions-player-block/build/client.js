@@ -14214,11 +14214,14 @@ var AppContainer = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div
 /**
  * Container component to display a warning if JWPlayer content couldn't be parsed
  */
-var NoPlayerWarningContainer = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n"], ["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n"])));
+var NoPlayerWarningContainer = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: ", "px;\n"], ["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: ",
+    "px;\n"])), function (props) {
+    return Object(_utils_string__WEBPACK_IMPORTED_MODULE_5__["isEmptyOrUndefined"])(props.height) ? "500" : props.height;
+});
 /**
  * Header component to display a warning if JWPlayer couldn't be parsed
  */
-var NoPlayerWarning = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].h1(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  padding: 10px;\n"], ["\n  padding: 10px;\n"])));
+var NoPlayerWarning = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].h2(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  padding: 10px;\n"], ["\n  padding: 10px;\n"])));
 /**
  * Default prop values provided with AppCtx
  */
@@ -14282,7 +14285,7 @@ function App(props) {
             window.removeEventListener("resize", handleResize);
         };
     }, [responsive, appRef]);
-    var subtitleTrack = subtitleTracks.length > currentTrackIdx
+    var subtitleTrack = subtitleTracks && subtitleTracks.length > currentTrackIdx
         ? subtitleTracks[currentTrackIdx]
         : null;
     if (playerEmbed) {
@@ -14292,9 +14295,8 @@ function App(props) {
                 React.createElement(_components_VideoPlayer__WEBPACK_IMPORTED_MODULE_2__["default"], { seek: seek, rawHtml: playerEmbed, onTime: setCurrentTime, onPlayerConfigParsed: handleConfig, onCaptionsChanged: handleCaptionsChange }))));
     }
     else {
-        return (React.createElement(AppContainer, null,
-            React.createElement(NoPlayerWarningContainer, null,
-                React.createElement(NoPlayerWarning, null, "No Player Embed Code Found. Please check your post and try again."))));
+        return (React.createElement(NoPlayerWarningContainer, null,
+            React.createElement(NoPlayerWarning, null, "No Player Embed Code Found. Please check your block configuration and try again.")));
     }
 }
 /* harmony default export */ __webpack_exports__["default"] = (App);
@@ -14728,7 +14730,9 @@ function SubtitleList(props) {
                 React.createElement(SubtitleListFilterInput, { fontFamily: fontFamily, placeholder: "Search Captions ...", ref: filterInputRef, value: filterVal, onChange: handleFilterValChange }),
                 React.createElement(SubtitleListClearFilterButton, { onClick: handleClearFilterButtonClick }, "\u2716")),
             React.createElement(SubtitleListAutoScrollButton, { active: autoScroll, onClick: handleAutoScrollButtonClick }, "scroll")),
-        React.createElement(SubtitleScrollList, { ref: scrollRef }, subs.map(function (sub) { return (React.createElement(_SubtitleDisplay__WEBPACK_IMPORTED_MODULE_5__["default"], { autoScroll: autoScroll, key: sub.data.start, subtitle: sub, scrollRef: scrollRef })); }))));
+        React.createElement(SubtitleScrollList, { ref: scrollRef }, subs.length > 0
+            ? subs.map(function (sub) { return (React.createElement(_SubtitleDisplay__WEBPACK_IMPORTED_MODULE_5__["default"], { autoScroll: autoScroll, key: sub.data.start, subtitle: sub, scrollRef: scrollRef })); })
+            : "No Captions or Subtitles Found!")));
 }
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
 

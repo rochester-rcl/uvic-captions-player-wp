@@ -21,9 +21,9 @@ declare global {
 }
 /**
  * App container mixin component.
- * 
+ *
  * @param props - see IAppContainerProps interface
- * @returns 
+ * @returns
  */
 const AppContainerBase = (props: IAppContainerProps) => `
   display: grid;
@@ -49,9 +49,9 @@ const AppContainerLandscape = `
 
 /**
  * Mixin styles for portrait app display
- * 
+ *
  * @param props - see IAppContainerProps interface
- * @returns 
+ * @returns
  */
 const AppContainerPortrait = (props: IAppContainerProps) => `
   grid-template-columns: 1fr;
@@ -81,12 +81,14 @@ const NoPlayerWarningContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: ${(props: IAppContainerProps) =>
+    isEmptyOrUndefined(props.height) ? "500" : props.height}px;
 `;
 
 /**
  * Header component to display a warning if JWPlayer couldn't be parsed
  */
-const NoPlayerWarning = styled.h1`
+const NoPlayerWarning = styled.h2`
   padding: 10px;
 `;
 
@@ -137,9 +139,9 @@ interface IAppContainerProps {
 
 /**
  * Main root component to render and sync a JWPlayer and its accompanying subtitles
- * 
+ *
  * @param props - see IAppProps interface
- * @returns 
+ * @returns
  */
 function App(props: IAppProps) {
   const { loadHypothesis, playerEmbed, responsive, ...rest } = props;
@@ -203,7 +205,7 @@ function App(props: IAppProps) {
   }, [responsive, appRef]);
 
   const subtitleTrack =
-    subtitleTracks.length > currentTrackIdx
+    subtitleTracks && subtitleTracks.length > currentTrackIdx
       ? subtitleTracks[currentTrackIdx]
       : null;
 
@@ -226,13 +228,11 @@ function App(props: IAppProps) {
     );
   } else {
     return (
-      <AppContainer>
-        <NoPlayerWarningContainer>
-          <NoPlayerWarning>
-            No Player Embed Code Found. Please check your post and try again.
-          </NoPlayerWarning>
-        </NoPlayerWarningContainer>
-      </AppContainer>
+      <NoPlayerWarningContainer>
+        <NoPlayerWarning>
+          No Player Embed Code Found. Please check your block configuration and try again.
+        </NoPlayerWarning>
+      </NoPlayerWarningContainer>
     );
   }
 }

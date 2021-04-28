@@ -12,10 +12,12 @@ import {
   CheckboxControl
 } from "@wordpress/components";
 import App, { DYNAMIC_PLAYER_EMBED_ID } from "./App";
+import styled from "styled-components";
+import Palette from "./styles/palette";
 
 registerBlockType<IUvicPlayerBlockProps>("uvic-captions-player/embed-player", {
   title: "UVic Captions Player",
-  icon: "embed-video",
+  icon: "format-video",
   category: "embed",
   attributes: {
     playerEmbed: {
@@ -51,6 +53,12 @@ interface IUvicPlayerBlockProps {
   responsive: boolean;
 }
 
+const BlockEditContainer = styled.div`
+  background: ${Palette.White};
+  padding: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+`;
+
 /**
  * Callback for rendering the block in edit mode
  *
@@ -79,37 +87,41 @@ function onEditBlock(props: BlockEditProps<IUvicPlayerBlockProps>) {
     "https://www.uvic.ca/systems/support/avmultimedia/webcasting/wizard.php";
   return (
     <div {...blockProps}>
-      <TextareaControl
-        label="Embed UVic Player"
-        help={`Paste the output from the UVic Video Player setup wizard: ${wizardUrl}`}
-        value={attributes.playerEmbed}
-        rows={20}
-        onChange={updateFieldValue}
-      />
-      <NumberControl
-        label="Set Width (px)"
-        help="Sets the width of the UVic Captions Player"
-        value={attributes.width || ""}
-        onChange={updateWidthValue}
-      />
-      <NumberControl
-        label="Set Height (px)"
-        help="Sets the height of the UVic Captions Player"
-        value={attributes.height || ""}
-        onChange={updateHeightValue}
-      />
-      <TextControl
-        label="Set Font Family"
-        help="Sets the font family for the UVic Captions Player, e.g. 'Roboto', Helvetica, sans-serif'"
-        value={attributes.fontFamily || ""}
-        onChange={updateFontFamily}
-      />
-      <CheckboxControl
-        label="Responsive Layout"
-        help="Allows the player layout to adjust to portrait / landscape based on device resolution"
-        checked={attributes.responsive}
-        onChange={updateResponsive}
-      />
+      <BlockEditContainer>
+        <h4>UVic Captions Player Block</h4>
+        <TextareaControl
+          label="Embed UVic Player"
+          help={`Paste the output from the UVic Video Player setup wizard: ${wizardUrl}`}
+          value={attributes.playerEmbed}
+          rows={20}
+          onChange={updateFieldValue}
+        />
+        <NumberControl
+          label="Set Width (px)"
+          help="Sets the width of the UVic Captions Player"
+          value={attributes.width || ""}
+          onChange={updateWidthValue}
+        />
+        <NumberControl
+          label="Set Height (px)"
+          help="Sets the height of the UVic Captions Player"
+          value={attributes.height || ""}
+          onChange={updateHeightValue}
+        />
+        <TextControl
+          label="Set Font Family"
+          help="Sets the font family for the UVic Captions Player, e.g. 'Roboto', Helvetica, sans-serif'"
+          value={attributes.fontFamily || ""}
+          onChange={updateFontFamily}
+        />
+        <CheckboxControl
+          label="Responsive Layout"
+          help="Allows the player layout to adjust to portrait / landscape based on device resolution"
+          checked={attributes.responsive}
+          onChange={updateResponsive}
+        />
+      </BlockEditContainer>
+      <h4>Preview:</h4>
       <App loadHypothesis={false} {...attributes} />
     </div>
   );

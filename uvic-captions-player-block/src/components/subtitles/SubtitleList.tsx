@@ -142,12 +142,12 @@ const SubtitleScrollList = styled.div`
 `;
 
 /**
- * Renders a scrollable list of SubtitleDisplay components, 
+ * Renders a scrollable list of SubtitleDisplay components,
  * with tools to toggle auto scrolling
  * and filter subtitle content
- * 
+ *
  * @param props - see ISubtitleListProps interface
- * @returns 
+ * @returns
  */
 export default function SubtitleList(props: ISubtitleListProps) {
   const { subtitles } = props;
@@ -204,14 +204,16 @@ export default function SubtitleList(props: ISubtitleListProps) {
         </SubtitleListAutoScrollButton>
       </SubtitleListToolsContainer>
       <SubtitleScrollList ref={scrollRef}>
-        {subs.map((sub: ISubtitle) => (
-          <SubtitleDisplay
-            autoScroll={autoScroll}
-            key={sub.data.start}
-            subtitle={sub}
-            scrollRef={scrollRef}
-          />
-        ))}
+        {subs.length > 0
+          ? subs.map((sub: ISubtitle) => (
+              <SubtitleDisplay
+                autoScroll={autoScroll}
+                key={sub.data.start}
+                subtitle={sub}
+                scrollRef={scrollRef}
+              />
+            ))
+          : "No Captions or Subtitles Found!"}
       </SubtitleScrollList>
     </SubtitleListContainer>
   );

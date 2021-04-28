@@ -14203,11 +14203,14 @@ var AppContainer = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div
 /**
  * Container component to display a warning if JWPlayer content couldn't be parsed
  */
-var NoPlayerWarningContainer = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n"], ["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n"])));
+var NoPlayerWarningContainer = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: ", "px;\n"], ["\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: ",
+    "px;\n"])), function (props) {
+    return Object(_utils_string__WEBPACK_IMPORTED_MODULE_5__["isEmptyOrUndefined"])(props.height) ? "500" : props.height;
+});
 /**
  * Header component to display a warning if JWPlayer couldn't be parsed
  */
-var NoPlayerWarning = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].h1(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  padding: 10px;\n"], ["\n  padding: 10px;\n"])));
+var NoPlayerWarning = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].h2(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  padding: 10px;\n"], ["\n  padding: 10px;\n"])));
 /**
  * Default prop values provided with AppCtx
  */
@@ -14271,7 +14274,7 @@ function App(props) {
             window.removeEventListener("resize", handleResize);
         };
     }, [responsive, appRef]);
-    var subtitleTrack = subtitleTracks.length > currentTrackIdx
+    var subtitleTrack = subtitleTracks && subtitleTracks.length > currentTrackIdx
         ? subtitleTracks[currentTrackIdx]
         : null;
     if (playerEmbed) {
@@ -14281,9 +14284,8 @@ function App(props) {
                 React.createElement(_components_VideoPlayer__WEBPACK_IMPORTED_MODULE_2__["default"], { seek: seek, rawHtml: playerEmbed, onTime: setCurrentTime, onPlayerConfigParsed: handleConfig, onCaptionsChanged: handleCaptionsChange }))));
     }
     else {
-        return (React.createElement(AppContainer, null,
-            React.createElement(NoPlayerWarningContainer, null,
-                React.createElement(NoPlayerWarning, null, "No Player Embed Code Found. Please check your post and try again."))));
+        return (React.createElement(NoPlayerWarningContainer, null,
+            React.createElement(NoPlayerWarning, null, "No Player Embed Code Found. Please check your block configuration and try again.")));
     }
 }
 /* harmony default export */ __webpack_exports__["default"] = (App);
@@ -14666,7 +14668,9 @@ function SubtitleList(props) {
                 React.createElement(SubtitleListFilterInput, { fontFamily: fontFamily, placeholder: "Search Captions ...", ref: filterInputRef, value: filterVal, onChange: handleFilterValChange }),
                 React.createElement(SubtitleListClearFilterButton, { onClick: handleClearFilterButtonClick }, "\u2716")),
             React.createElement(SubtitleListAutoScrollButton, { active: autoScroll, onClick: handleAutoScrollButtonClick }, "scroll")),
-        React.createElement(SubtitleScrollList, { ref: scrollRef }, subs.map(function (sub) { return (React.createElement(_SubtitleDisplay__WEBPACK_IMPORTED_MODULE_5__["default"], { autoScroll: autoScroll, key: sub.data.start, subtitle: sub, scrollRef: scrollRef })); }))));
+        React.createElement(SubtitleScrollList, { ref: scrollRef }, subs.length > 0
+            ? subs.map(function (sub) { return (React.createElement(_SubtitleDisplay__WEBPACK_IMPORTED_MODULE_5__["default"], { autoScroll: autoScroll, key: sub.data.start, subtitle: sub, scrollRef: scrollRef })); })
+            : "No Captions or Subtitles Found!")));
 }
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8;
 
@@ -14784,6 +14788,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./App */ "./src/App.tsx");
+/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+/* harmony import */ var _styles_palette__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./styles/palette */ "./src/styles/palette.ts");
+var __makeTemplateObject = (undefined && undefined.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -14810,9 +14820,11 @@ var __rest = (undefined && undefined.__rest) || function (s, e) {
 
 
 
+
+
 Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__["registerBlockType"])("uvic-captions-player/embed-player", {
     title: "UVic Captions Player",
-    icon: "embed-video",
+    icon: "format-video",
     category: "embed",
     attributes: {
         playerEmbed: {
@@ -14836,6 +14848,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__["registerBlockType"])("uvi
     edit: onEditBlock,
     save: onSaveBlock
 });
+var BlockEditContainer = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  background: ", ";\n  padding: 10px;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"], ["\n  background: ", ";\n  padding: 10px;\n  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);\n"])), _styles_palette__WEBPACK_IMPORTED_MODULE_5__["default"].White);
 /**
  * Callback for rendering the block in edit mode
  *
@@ -14862,11 +14875,14 @@ function onEditBlock(props) {
     var blockProps = Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__["useBlockProps"])();
     var wizardUrl = "https://www.uvic.ca/systems/support/avmultimedia/webcasting/wizard.php";
     return (React.createElement("div", __assign({}, blockProps),
-        React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["TextareaControl"], { label: "Embed UVic Player", help: "Paste the output from the UVic Video Player setup wizard: " + wizardUrl, value: attributes.playerEmbed, rows: 20, onChange: updateFieldValue }),
-        React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["__experimentalNumberControl"], { label: "Set Width (px)", help: "Sets the width of the UVic Captions Player", value: attributes.width || "", onChange: updateWidthValue }),
-        React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["__experimentalNumberControl"], { label: "Set Height (px)", help: "Sets the height of the UVic Captions Player", value: attributes.height || "", onChange: updateHeightValue }),
-        React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["TextControl"], { label: "Set Font Family", help: "Sets the font family for the UVic Captions Player, e.g. 'Roboto', Helvetica, sans-serif'", value: attributes.fontFamily || "", onChange: updateFontFamily }),
-        React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CheckboxControl"], { label: "Responsive Layout", help: "Allows the player layout to adjust to portrait / landscape based on device resolution", checked: attributes.responsive, onChange: updateResponsive }),
+        React.createElement(BlockEditContainer, null,
+            React.createElement("h4", null, "UVic Captions Player Block"),
+            React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["TextareaControl"], { label: "Embed UVic Player", help: "Paste the output from the UVic Video Player setup wizard: " + wizardUrl, value: attributes.playerEmbed, rows: 20, onChange: updateFieldValue }),
+            React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["__experimentalNumberControl"], { label: "Set Width (px)", help: "Sets the width of the UVic Captions Player", value: attributes.width || "", onChange: updateWidthValue }),
+            React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["__experimentalNumberControl"], { label: "Set Height (px)", help: "Sets the height of the UVic Captions Player", value: attributes.height || "", onChange: updateHeightValue }),
+            React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["TextControl"], { label: "Set Font Family", help: "Sets the font family for the UVic Captions Player, e.g. 'Roboto', Helvetica, sans-serif'", value: attributes.fontFamily || "", onChange: updateFontFamily }),
+            React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CheckboxControl"], { label: "Responsive Layout", help: "Allows the player layout to adjust to portrait / landscape based on device resolution", checked: attributes.responsive, onChange: updateResponsive })),
+        React.createElement("h4", null, "Preview:"),
         React.createElement(_App__WEBPACK_IMPORTED_MODULE_3__["default"], __assign({ loadHypothesis: false }, attributes))));
 }
 /**
@@ -14883,6 +14899,7 @@ function onSaveBlock(props) {
     var serialized = JSON.stringify(rest);
     return (React.createElement("div", { id: _App__WEBPACK_IMPORTED_MODULE_3__["DYNAMIC_PLAYER_EMBED_ID"], "data-player-props": serialized, "data-player-embed": playerEmbed }));
 }
+var templateObject_1;
 
 
 /***/ }),
