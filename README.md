@@ -6,7 +6,7 @@ for annotation with Hypothesis
 
 ## Installation
 
-Download and unzip one of the releases into your WordPress plugins folder and activate it from the plugins menu.
+Download one of the releases and install it as you would any other WordPress plugin, either through the WordPress interface or by unzipping it into the wp-content/plugins directory.
 
 This will create a new **UVic Captions Player** block under _blocks/embeds_
 
@@ -31,7 +31,7 @@ the **UVic Captions Player** block from the EMBEDS section in the Blocks menu.Pa
 
 __Note__: Local development requires both Docker and Node 12.0.0 or later and requires an npm version greater than 6.9.0.
 
-To develop the UVic Captions Player locally, clone this repository:
+#### To develop the UVic Captions Player locally, clone this repository:
 
 ```
 git clone git@github.com:rochester-rcl/uvic-captions-player-wp.git
@@ -45,7 +45,7 @@ WP_PLUGIN_SRC [absolute path to the uvic-captions-player-wp folder]
 WP_MYSQL_DIR [absolute path to the mysql data folder created above]
 ```
 
-Install all node modules:
+#### Install all node modules:
 
 With npm > 7
 ```bash
@@ -59,12 +59,17 @@ cd uvic-captions-player-block &&
 npm install --legacy-peer-deps
 ```
 
+#### Start the Docker service
+
 To start the Docker service, run 
 ```bash
 docker-compose up wordpress
 ```
 
 This will spin up a local version of WordPress available at localhost:8080. You should see the UVic Captions Player Plugin in the Plugins list. If not, check the WP_PLUGIN_SRC environment variable set in the .env file.
+
+
+#### Build the block
 
 To build the block code with hot module reloading, cd into the uvic-captions-player-block folder and run:
 
