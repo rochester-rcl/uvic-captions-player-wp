@@ -6,7 +6,7 @@ for annotation with Hypothesis
 
 ## Installation
 
-Download one of the releases and install it as you would any other WordPress plugin, either through the WordPress interface or by unzipping it into the wp-content/plugins directory.
+Download one of the [releases](https://github.com/rochester-rcl/uvic-captions-player-wp/releases/download/v0.0.1/uvic-captions-player-plugin.zip) and install it as you would any other WordPress plugin, either through the WordPress interface or by unzipping it into the wp-content/plugins directory.
 
 This will create a new **UVic Captions Player** block under _blocks/embeds_
 
