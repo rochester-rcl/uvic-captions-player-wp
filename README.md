@@ -31,7 +31,7 @@ the **UVic Captions Player** block from the EMBEDS section in the Blocks menu.Pa
 
 __Note__: Local development requires both Docker and Node 12.0.0 or later and requires an npm version greater than 6.9.0.
 
-#### To develop the UVic Captions Player locally, clone this repository:
+#### Clone the repository:
 
 ```
 git clone git@github.com:rochester-rcl/uvic-captions-player-wp.git
