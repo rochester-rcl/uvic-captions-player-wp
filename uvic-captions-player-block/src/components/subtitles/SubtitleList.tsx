@@ -182,28 +182,33 @@ export default function SubtitleList(props: ISubtitleListProps) {
     }
   }, [scrollRef]);
   return (
-    <SubtitleListContainer>
-      <SubtitleListToolsContainer>
-        <SubtitleListFilterInputContainer>
+    <SubtitleListContainer className="uvic-player-subtitle-display-container">
+      <SubtitleListToolsContainer className="uvic-player-subtitle-tools-container">
+        <SubtitleListFilterInputContainer className="uvic-player-subtitle-filter-container">
           <SubtitleListFilterInput
+            className="uvic-player-subtitle-filter-input"
             fontFamily={fontFamily}
             placeholder={"Search Captions ..."}
             ref={filterInputRef}
             value={filterVal}
             onChange={handleFilterValChange}
           />
-          <SubtitleListClearFilterButton onClick={handleClearFilterButtonClick}>
+          <SubtitleListClearFilterButton
+            className="uvic-player-subtitle-clear-button"
+            onClick={handleClearFilterButtonClick}
+          >
             &#10006;
           </SubtitleListClearFilterButton>
         </SubtitleListFilterInputContainer>
         <SubtitleListAutoScrollButton
+          className="uvic-player-subtitle-auto-scroll-button"
           active={autoScroll}
           onClick={handleAutoScrollButtonClick}
         >
           scroll
         </SubtitleListAutoScrollButton>
       </SubtitleListToolsContainer>
-      <SubtitleScrollList ref={scrollRef}>
+      <SubtitleScrollList className="uvic-player-subtitle-list" ref={scrollRef}>
         {subs.length > 0
           ? subs.map((sub: ISubtitle) => (
               <SubtitleDisplay

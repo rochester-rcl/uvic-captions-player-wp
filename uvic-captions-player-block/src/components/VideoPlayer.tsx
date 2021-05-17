@@ -3,6 +3,7 @@ import { loadJWPlayerScript } from "../utils/scriptloader";
 import styled from "styled-components";
 import { JWPlayer, TimeParam } from "../types/jwplayer";
 import Palette from "../styles/palette";
+import { v4 as uuidv4 } from "uuid";
 
 /**
  * Interface for high-level VideoPlayer component props
@@ -17,7 +18,7 @@ interface IVideoPlayerProps {
 }
 
 /**
- * Interface representing a JWPlayer source objectBut 
+ * Interface representing a JWPlayer source objectBut
  */
 interface ISource {
   file: string;
@@ -79,11 +80,11 @@ interface IPlayer {
 /**
  * Parses a stringified JWPlayer config and returns it
  * as a JS object
- * WARNING - uses eval and could pose a security threat 
+ * WARNING - uses eval and could pose a security threat
  * if used outside of this context
- * 
+ *
  * @param rawObj - the raw stringified JS Object (not JSON)
- * @returns 
+ * @returns
  */
 function parsePlayerConfig(rawObj: string): IPlayerConfig {
   const evalFunc = Function(`"use strict";return (${rawObj})`);
@@ -93,10 +94,10 @@ function parsePlayerConfig(rawObj: string): IPlayerConfig {
 /**
  * Parses a raw html string and attempts to extract
  * the JWPlayer source script, key, and config
- * 
- * @param html - raw html snippet containing 
+ *
+ * @param html - raw html snippet containing
  * the JWPlayer constructor and config
- * @returns 
+ * @returns
  */
 function parseRawHtml(html: string): IPlayer {
   // grab source and key
@@ -122,7 +123,7 @@ function parseRawHtml(html: string): IPlayer {
 }
 
 /**
- * Flex container component to house the JWPlayer element 
+ * Flex container component to house the JWPlayer element
  */
 const VideoPlayerContainer = styled.div`
   position: relative;
@@ -137,9 +138,9 @@ const VideoPlayerContainer = styled.div`
 /**
  * The root VideoPlayer component. Renders a JWPlayer parsed
  * from a raw html snippet
- * 
+ *
  * @param props - see the IVideoPlayerProps interface
- * @returns 
+ * @returns
  */
 export default function VideoPlayer(props: IVideoPlayerProps) {
   const {
@@ -169,13 +170,14 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
         }
       }
 
-      const jwStatic = await loadJWPlayerScript(
-        document,
-        player.jwPlayerSrc,
-        "jw-player",
-        player.jwPlayerKey
-      );
-
+      const jwStatic =
+        window.jwplayer ||
+        (await loadJWPlayerScript(
+          document,
+          player.jwPlayerSrc,
+          "jw-player-script",
+          player.jwPlayerKey
+        ));
       if (playerRef.current) {
         const p = jwStatic(playerRef.current);
         p.setup({
@@ -210,8 +212,8 @@ export default function VideoPlayer(props: IVideoPlayerProps) {
   }, [seek, jwPlayer]);
 
   return (
-    <VideoPlayerContainer>
-      <div ref={playerRef}></div>
+    <VideoPlayerContainer className="uvic-player-video-container">
+      <div id={`jw-player-ref-${uuidv4()}`} ref={playerRef}></div>
     </VideoPlayerContainer>
   );
 }

@@ -13,10 +13,12 @@ import { isEmptyOrUndefined } from "./utils/string";
 import "./styles/fonts.css";
 
 import { JWPlayerStatic } from "./types/jwplayer";
+import Palette from "./styles/palette";
 
 declare global {
   interface Window {
     jwplayer?: JWPlayerStatic;
+    hypothesisLoaded?: boolean;
   }
 }
 /**
@@ -92,6 +94,15 @@ const NoPlayerWarning = styled.h2`
   padding: 10px;
 `;
 
+const DisplayTitle = styled.h5`
+  width: 100%;
+  border-bottom: 1px solid ${Palette.LightGray};
+  font-family: ${(props: IDisplayTitleProps) =>
+    isEmptyOrUndefined(props.fontFamily)
+      ? '"Roboto Condensed", Helvetica, sans-serif'
+      : props.fontFamily};
+`;
+
 /**
  * Interface for all available properties in AppCtx
  */
@@ -125,6 +136,11 @@ export interface IAppProps {
   height?: string;
   fontFamily?: string;
   responsive: boolean;
+  displayTitle?: string;
+}
+
+export interface IDisplayTitleProps {
+  fontFamily?: string;
 }
 
 /**
@@ -144,7 +160,13 @@ interface IAppContainerProps {
  * @returns
  */
 function App(props: IAppProps) {
-  const { loadHypothesis, playerEmbed, responsive, ...rest } = props;
+  const {
+    loadHypothesis,
+    playerEmbed,
+    responsive,
+    displayTitle,
+    ...rest
+  } = props;
   const appRef = useRef<HTMLDivElement | null>(null);
   const [currentTime, setCurrentTime] = useState(
     defaultAppCtxValue.currentTime
@@ -174,8 +196,9 @@ function App(props: IAppProps) {
   ]);
 
   useEffect(() => {
-    if (loadHypothesis) {
+    if (loadHypothesis && !window.hypothesisLoaded) {
       loadHypothesisScript(document);
+      window.hypothesisLoaded = true;
     }
   }, [loadHypothesis]);
 
@@ -214,7 +237,20 @@ function App(props: IAppProps) {
       <AppCtx.Provider
         value={{ currentTime, subtitleTrack, setTime, appProps: props }}
       >
-        <AppContainer ref={appRef} portrait={portrait} {...rest}>
+        {displayTitle !== undefined ? (
+          <DisplayTitle
+            className="uvic-player-display-title"
+            fontFamily={rest.fontFamily}
+          >
+            {displayTitle}
+          </DisplayTitle>
+        ) : null}
+        <AppContainer
+          className="uvic-player-app-container"
+          ref={appRef}
+          portrait={portrait}
+          {...rest}
+        >
           <Subtitles />
           <VideoPlayer
             seek={seek}
@@ -230,7 +266,8 @@ function App(props: IAppProps) {
     return (
       <NoPlayerWarningContainer>
         <NoPlayerWarning>
-          No Player Embed Code Found. Please check your block configuration and try again.
+          No Player Embed Code Found. Please check your block configuration and
+          try again.
         </NoPlayerWarning>
       </NoPlayerWarningContainer>
     );

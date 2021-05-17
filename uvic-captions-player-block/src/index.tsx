@@ -4,13 +4,15 @@ import {
   registerBlockType
 } from "@wordpress/blocks";
 import { useBlockProps } from "@wordpress/block-editor";
-
+import { v4 as uuidv4 } from "uuid";
 import {
   TextControl,
   TextareaControl,
   __experimentalNumberControl as NumberControl,
   CheckboxControl
 } from "@wordpress/components";
+import { useEffect } from "@wordpress/element";
+
 import App, { DYNAMIC_PLAYER_EMBED_ID } from "./App";
 import styled from "styled-components";
 import Palette from "./styles/palette";
@@ -20,7 +22,13 @@ registerBlockType<IUvicPlayerBlockProps>("uvic-captions-player/embed-player", {
   icon: "format-video",
   category: "embed",
   attributes: {
+    playerId: {
+      type: "string"
+    },
     playerEmbed: {
+      type: "string"
+    },
+    displayTitle: {
       type: "string"
     },
     width: {
@@ -46,7 +54,9 @@ registerBlockType<IUvicPlayerBlockProps>("uvic-captions-player/embed-player", {
  * Available serializable attributes fir the UvicPlayerBlock
  */
 interface IUvicPlayerBlockProps {
+  playerId?: string;
   playerEmbed: string;
+  displayTitle?: string;
   width?: string;
   height?: string;
   fontFamily?: string;
@@ -82,9 +92,18 @@ function onEditBlock(props: BlockEditProps<IUvicPlayerBlockProps>) {
   const updateResponsive = (val: boolean) => {
     setAttributes({ responsive: val });
   };
+  const updateDisplayTitle = (val: string) => {
+    setAttributes({ displayTitle: val });
+  };
   const blockProps = useBlockProps();
   const wizardUrl =
     "https://www.uvic.ca/systems/support/avmultimedia/webcasting/wizard.php";
+
+  useEffect(() => {
+    if (attributes.playerId === undefined) {
+      setAttributes({ playerId: `uvic-captions-player-${uuidv4()}` });
+    }
+  }, []);
   return (
     <div {...blockProps}>
       <BlockEditContainer>
@@ -95,6 +114,12 @@ function onEditBlock(props: BlockEditProps<IUvicPlayerBlockProps>) {
           value={attributes.playerEmbed}
           rows={20}
           onChange={updateFieldValue}
+        />
+        <TextControl
+          label="Display Title"
+          help="The title of the video to display to users"
+          value={attributes.displayTitle || ""}
+          onChange={updateDisplayTitle}
         />
         <NumberControl
           label="Set Width (px)"
@@ -137,11 +162,12 @@ function onEditBlock(props: BlockEditProps<IUvicPlayerBlockProps>) {
  * @returns
  */
 function onSaveBlock(props: BlockSaveProps<IUvicPlayerBlockProps>) {
-  const { playerEmbed, ...rest } = props.attributes;
+  const { playerId, playerEmbed, ...rest } = props.attributes;
   const serialized = JSON.stringify(rest);
   return (
     <div
-      id={DYNAMIC_PLAYER_EMBED_ID}
+      className={DYNAMIC_PLAYER_EMBED_ID}
+      id={playerId}
       data-player-props={serialized}
       data-player-embed={playerEmbed}
     ></div>

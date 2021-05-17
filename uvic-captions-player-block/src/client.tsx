@@ -10,17 +10,21 @@ import "simplebar/dist/simplebar.min.css";
  * the client side.
  *
  * All necessary props are serialized and stored as data
- * attributes on the corresponding div with id set in the 
+ * attributes on the corresponding div with id set in the
  * DYNAMIC_PLAYER_EMBED_ID constant.
  */
 window.addEventListener("DOMContentLoaded", evt => {
-  const wrapper = document.getElementById(DYNAMIC_PLAYER_EMBED_ID);
-  if (wrapper) {
-    const { playerEmbed, playerProps } = wrapper.dataset;
-    const props = playerProps ? JSON.parse(playerProps) : {};
-    render(
-      <App loadHypothesis={true} playerEmbed={playerEmbed} {...props} />,
-      wrapper
-    );
+  const wrappers = Array.from(
+    document.getElementsByClassName(DYNAMIC_PLAYER_EMBED_ID)
+  ) as HTMLDivElement[];
+  for (let wrapper of wrappers) {
+    if (wrapper) {
+      const { playerEmbed, playerProps } = wrapper.dataset;
+      const props = playerProps ? JSON.parse(playerProps) : {};
+      render(
+        <App loadHypothesis={true} playerEmbed={playerEmbed} {...props} />,
+        wrapper
+      );
+    }
   }
 });

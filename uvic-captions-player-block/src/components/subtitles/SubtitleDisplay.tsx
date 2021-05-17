@@ -49,9 +49,9 @@ const SubtitleDisplayContainer = styled.div`
  * Renders a subtitle's timecode and text content.
  * Sets global video player time to the start time of
  * its subtitle prop when clicked.
- * 
+ *
  * @param props - see ISubtitleDisplayProps interface
- * @returns 
+ * @returns
  */
 export default function SubtitleDisplay(props: ISubtitleDisplayProps) {
   const { autoScroll, scrollRef } = props;
@@ -90,15 +90,16 @@ export default function SubtitleDisplay(props: ISubtitleDisplayProps) {
 
   return (
     <SubtitleDisplayContainer
+      className="uvic-player-subtitle"
       ref={subRef}
       active={active}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
     >
-      <SubtitleTimecode>
+      <SubtitleTimecode className="uvic-player-subtitle-timecode">
         {formatTimestamp(start).replace(/\,(.*)/g, "")}
       </SubtitleTimecode>
-      <SubtitleText>{text}</SubtitleText>
+      <SubtitleText className="uvic-player-subtitle-text">{text}</SubtitleText>
     </SubtitleDisplayContainer>
   );
 }

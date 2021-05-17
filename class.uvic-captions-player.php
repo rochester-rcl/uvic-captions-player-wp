@@ -59,6 +59,12 @@ class UVicCaptionsPlayer {
         );
 
         wp_enqueue_style(
+            "uvic-captions-player-jwplayer-override-style",
+            plugins_url("{$blockFolder}/jwplayer-overrides.css", __FILE__),
+            []
+        );
+
+        wp_enqueue_style(
             "uvic-captions-player-client-style",
             plugins_url("{$blockFolder}/client.css", __FILE__),
             []
